@@ -153,6 +153,15 @@ public class Question_1_20 {
         return -1;
     }
 
+    /**
+     * 5. Longest Palindromic Substring.
+     * @param s string
+     * @return longest palindrome string
+     */
+    public String longestPalindrome(String s) {
+
+    }
+
     public static void main(String[] args) {
 //        int[] nums1 = {1, 2};
 //        int[] nums2 = {3, 4};
