@@ -159,7 +159,44 @@ public class Question_1_20 {
      * @return longest palindrome string
      */
     public String longestPalindrome(String s) {
+        if (s == null || s.length() <= 1) {
+            return s;
+        }
+        String result = "";
+        for (int i = 0; i < s.length(); i++) {
+            String cur1 = longestPalindromeFromMid(s, i, i);
+            String cur2 = longestPalindromeFromMid(s, i, i + 1);
+            result = (cur1.length() > result.length()) ? cur1 : result;
+            result = (cur2.length() > result.length()) ? cur2 : result;
+        }
+        return result;
+    }
 
+    /**
+     * Helper function: longest Pal sub from mid two indexes.
+     *
+     * case 1: Exactly mid -> left = right.
+     * (abdbc, 2) -> bdb
+     *
+     * case 2: Left side of mid -> right = left + 1.
+     * (abbc, 1) -> bb
+     *
+     * @param s string
+     * @param left left index
+     * @param right right index
+     * @return longest pal sub string
+     */
+    private String longestPalindromeFromMid(String s, int left, int right) {
+        String result = "";
+        while (left >= 0 && right < s.length()) {
+            if (s.charAt(left) != s.charAt(right)) {
+                break;
+            }
+            result = s.substring(left, right + 1);
+            left--;
+            right++;
+        }
+        return result;
     }
 
     public static void main(String[] args) {
