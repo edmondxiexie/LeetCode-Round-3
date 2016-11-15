@@ -187,16 +187,14 @@ public class Question_1_20 {
      * @return longest pal sub string
      */
     private String longestPalindromeFromMid(String s, int left, int right) {
-        String result = "";
         while (left >= 0 && right < s.length()) {
             if (s.charAt(left) != s.charAt(right)) {
                 break;
             }
-            result = s.substring(left, right + 1);
             left--;
             right++;
         }
-        return result;
+        return s.substring(left + 1, right);
     }
 
     public static void main(String[] args) {
