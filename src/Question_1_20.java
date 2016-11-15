@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -28,6 +29,68 @@ public class Question_1_20 {
             }
         }
         return result;
+    }
+
+    /**
+     * 2. Add Two Numbers.
+     * @param l1 list 1
+     * @param l2 list 2
+     * @return list sum
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int sum;
+            if (l1 == null) {
+                sum = l2.val + carry;
+                l2 = l2.next;
+            } else if (l2 == null) {
+                sum = l1.val + carry;
+                l1 = l1.next;
+            } else {
+                sum = l1.val + l2.val + carry;
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+            carry = sum / 10;
+            cur.next = new ListNode(sum % 10);
+            cur = cur.next;
+        }
+        if (carry != 0) {
+            cur.next = new ListNode(carry);
+        }
+        return dummy.next;
+    }
+
+    /**
+     * 3. Longest Substring Without Repeating Characters.
+     * @param s String
+     * @return longest length of substring
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        int chars = 128;
+
+        // record the last index of existing characters or -1 for not existing char
+        int[] record = new int[chars];
+        Arrays.fill(record, -1);
+        int[] dp = new int[s.length() + 1];
+        for (int i = 0; i < s.length(); i++) {
+            char cur = s.charAt(i);
+            int curLen;
+            if (record[cur] != -1) {
+                curLen = Math.min(dp[i] + 1, i - record[cur]);
+                record[cur] = i;
+            } else {
+                curLen = dp[i] + 1;
+                record[cur] = i;
+            }
+            dp[i + 1] = curLen;
+            max = Math.max(max, curLen);
+        }
+        return max;
     }
 
     /**
