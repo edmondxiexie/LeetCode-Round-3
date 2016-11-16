@@ -197,6 +197,35 @@ public class Question_1_20 {
         return s.substring(left + 1, right);
     }
 
+    /**
+     * 11. Container With Most Water.
+     * @param height height
+     * @return max area
+     */
+    public int maxArea(int[] height) {
+        int max = 0;
+        if (height == null || height.length == 0) {
+            return max;
+        }
+
+        // start from two sides to mid
+        // In every step, move the shorter board towards mid, because this board is no longer helpful
+        int left = 0;
+        int right = height.length - 1;
+        while (left < right) {
+            if (height[left] <= height[right]) {
+                int curArea = height[left] * (right - left);
+                max = Math.max(curArea, max);
+                left++;
+            } else {
+                int curArea = height[right] * (right - left);
+                max = Math.max(curArea, max);
+                right--;
+            }
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
 //        int[] nums1 = {1, 2};
 //        int[] nums2 = {3, 4};
