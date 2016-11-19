@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,19 +14,23 @@ public class Question_1_20 {
      * @param target target sum
      * @return two indexes
      */
-    public int[] twoSum(int[] nums, int target) {
+    public static int[] twoSum(int[] nums, int target) {
         if (nums == null) {
             return null;
         }
+        // <num, index>
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+
         int[] result = new int[2];
-        for (int i = 0; i < nums.length - 1; i++) {
-            int newTarget = target - nums[i];
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[j] == newTarget) {
-                    result[0] = i;
-                    result[1] = j;
-                    return result;
-                }
+        for (int i = 0; i < nums.length; i++) {
+            int remain = target - nums[i];
+            if (map.containsKey(remain) && map.get(remain) != i) {
+                result[0] = i;
+                result[1] = map.get(remain);
+                return result;
             }
         }
         return result;
@@ -228,9 +233,11 @@ public class Question_1_20 {
 
     public static void main(String[] args) {
 //        int[] nums1 = {1, 2};
-//        int[] nums2 = {3, 4};
-        int[] nums1 = {100000};
-        int[] nums2 = {100001};
-        System.out.println(findMedianSortedArrays(nums1, nums2));
+////        int[] nums2 = {3, 4};
+//        int[] nums1 = {100000};
+//        int[] nums2 = {100001};
+//        System.out.println(findMedianSortedArrays(nums1, nums2));
+        int[] nums = {3, 2, 4};
+        System.out.println(Arrays.toString(twoSum(nums, 6)));
     }
 }
