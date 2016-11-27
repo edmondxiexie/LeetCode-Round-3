@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Edmond on 11/26/16.
@@ -32,6 +32,35 @@ public class Google {
     private static int countLevel(String s) {
         String trim = s.replaceAll("\t", "");
         return s.length() - trim.length();
+    }
+
+    /**
+     * 340. Longest Substring with At Most K Distinct Characters.
+     * @param s
+     * @param k
+     * @return
+     */
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        Map<Character, Integer> map = new HashMap<>();
+        int start = 0;
+        int end = 0;
+        int max = 0;
+        while (end < s.length()) {
+            char c = s.charAt(end);
+            map.put(c, end);
+            while (map.size() > k) {
+                char startChar =  s.charAt(start);
+                if (map.get(startChar) != start) {
+                    start++;
+                } else {
+                    map.remove(startChar);
+                    start++;
+                }
+            }
+            max = Math.max(max, end - start + 1);
+            end++;
+        }
+        return max;
     }
 
     public static void main(String[] args) {
