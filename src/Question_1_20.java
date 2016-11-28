@@ -237,7 +237,43 @@ public class Question_1_20 {
 //        int[] nums1 = {100000};
 //        int[] nums2 = {100001};
 //        System.out.println(findMedianSortedArrays(nums1, nums2));
-        int[] nums = {3, 2, 4};
-        System.out.println(Arrays.toString(twoSum(nums, 6)));
+//        int[] nums = {3, 2, 4};
+//        System.out.println(Arrays.toString(twoSum(nums, 6)));
+        System.out.println(romanToInt("MMMDLXXXVI"));
     }
+
+    /**
+     * 13. Roman to Integer.
+     * @param s
+     * @return
+     */
+    public static int romanToInt(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        int len = s.length();
+        int result = 0;
+        for (int i = 0; i < len; i++) {
+            int first = map.get(s.charAt(i));
+            if (i + 1 == len) {
+                result += first;
+                return result;
+            }
+            int second = map.get(s.charAt(i + 1));
+            if (first < second) {
+                result += second - first;
+                i++;
+            } else {
+                result += first;
+            }
+        }
+        return result;
+    }
+
+
 }
