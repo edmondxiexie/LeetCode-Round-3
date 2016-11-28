@@ -130,14 +130,99 @@ public class Google {
      * 346. Moving Average from Data Stream.
      */
     public static class MovingAverage {
+        private Queue<Integer> queue;
+        private int capacity;
+        private double sum;
 
         /** Initialize your data structure here. */
         public MovingAverage(int size) {
-
+            queue = new LinkedList<>();
+            capacity = size;
+            sum = 0;
         }
 
         public double next(int val) {
+            queue.offer(val);
+            sum += val;
+            if (queue.size() > capacity) {
+                sum -= queue.poll();
+            }
+            return sum / queue.size();
+        }
+    }
+
+    /**
+     * 361. Bomb Enemy.
+     * @param grid
+     * @return
+     */
+    public int maxKilledEnemies(char[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
             return 0;
+        }
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int max = 0;
+        int[][] rowsCount = new int[rows][cols];
+        int[][] colsCount = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            countRows(grid, rowsCount, i);
+        }
+        for (int j = 0; j < cols; j++) {
+            countCols(grid, colsCount, j);
+        }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] != '0') {
+                    continue;
+                }
+                int count = rowsCount[i][j] + colsCount[i][j];
+                if (grid[i][j] == 'E') {
+                    count--;
+                }
+                max = Math.max(max, count);
+            }
+        }
+        return max;
+    }
+
+    private void countRows(char[][] grid, int[][] rowsCount, int i) {
+        int cols = grid[0].length;
+        int count = 0;
+
+        int start = 0;
+        int end = 0;
+        while (end <= cols) {
+            if (end == cols || grid[i][end] == 'W') {
+                for (int k = start; k < end; k++) {
+                    rowsCount[i][k] = count;
+                }
+                count = 0;
+                start = end + 1;
+            } else if (grid[i][end] == 'E') {
+                count++;
+            }
+            end++;
+        }
+    }
+
+    private void countCols(char[][] grid, int[][] colsCount, int j) {
+        int cols = grid.length;
+        int count = 0;
+
+        int start = 0;
+        int end = 0;
+        while (end <= cols) {
+            if (end == cols || grid[end][j] == 'W') {
+                for (int k = start; k < end; k++) {
+                    colsCount[k][j] = count;
+                }
+                count = 0;
+                start = end + 1;
+            } else if (grid[end][j] == 'E') {
+                count++;
+            }
+            end++;
         }
     }
 
@@ -157,7 +242,7 @@ public class Google {
 
         String s3 = "dir1\n dir11\n dir12\n  picture.txt\n  dir121\n  file1.txt\ndir2\n file2.doc";
         System.out.println(lengthLongestPath(s3));
-        MovingAverage m = new MovingAverage(4);
+        MovingAverage m = new MovingAverage(3);
 
         //        dir1
 //            dir11
@@ -167,6 +252,11 @@ public class Google {
 //                file1.txt
 //        dir2
 //            file2.gif
+        System.out.println(m.next(1));
+        System.out.println(m.next(10));
+        System.out.println(m.next(3));
+        System.out.println(m.next(5));
+
     }
 }
 
