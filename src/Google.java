@@ -226,6 +226,53 @@ public class Google {
         }
     }
 
+    /**
+     * Merge Sort.
+     * @param nums
+     */
+    public static void mergeSort(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int start = 0;
+        int end = nums.length - 1;
+        mergeSort(nums, start, end);
+    }
+
+    private static void mergeSort(int[] nums, int start, int end) {
+        if (start == end) {
+            return;
+        }
+        int mid = start + (end - start) / 2;
+        mergeSort(nums, start, mid);
+        mergeSort(nums, mid + 1, end);
+        merge(nums, start, mid, mid + 1, end);
+    }
+
+    private static void merge(int[] nums, int start1, int end1, int start2, int end2) {
+        int cur1 = start1;
+        int cur2 = start2;
+        int[] tmpArray = new int[end2 - start1 + 1];
+        for (int i = 0; i < tmpArray.length; i++) {
+            if (cur1 > end1) {
+                tmpArray[i] = nums[cur2];
+                cur2++;
+            } else if (cur2 > end2) {
+                tmpArray[i] = nums[cur1];
+                cur1++;
+            } else if (nums[cur1] <= nums[cur2]) {
+                tmpArray[i] = nums[cur1];
+                cur1++;
+            } else {
+                tmpArray[i] = nums[cur2];
+                cur2++;
+            }
+        }
+        for (int i = 0; i < tmpArray.length; i++) {
+            nums[start1 + i] = tmpArray[i];
+        }
+    }
+
     public static void main(String[] args) {
         String s = "dir\n\tsubdir1\n\t\tfile1.jpeg\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
 //        System.out.println(lengthLongestPath(s));
@@ -252,11 +299,16 @@ public class Google {
 //                file1.txt
 //        dir2
 //            file2.gif
-        System.out.println(m.next(1));
-        System.out.println(m.next(10));
-        System.out.println(m.next(3));
-        System.out.println(m.next(5));
+//        System.out.println(m.next(1));
+//        System.out.println(m.next(10));
+//        System.out.println(m.next(3));
+//        System.out.println(m.next(5));
 
+//        int[] nums = {5, 9, 8};
+
+        int[] nums = {5, 9, 8, 3, 1, 1, 0, 6};
+        mergeSort(nums);
+        System.out.println(Arrays.toString(nums));
     }
 }
 
