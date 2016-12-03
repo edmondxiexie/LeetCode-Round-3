@@ -273,6 +273,51 @@ public class Google {
         }
     }
 
+    /**
+     * 345. Reverse Vowels of a String.
+     * @param s
+     * @return
+     */
+    public String reverseVowels(String s) {
+        if (s == null || s.length() == 0) {
+            return s;
+        }
+        char[] sArray = s.toCharArray();
+        int left = 0;
+        int right = sArray.length - 1;
+        while (left < right) {
+            while (!isVowel(sArray[left])) {
+                left++;
+            }
+            while (!isVowel(sArray[right])) {
+                right--;
+            }
+            if (left < right) {
+                char tmp = sArray[left];
+                sArray[left] = sArray[right];
+                sArray[right] = tmp;
+                left++;
+                right--;
+            }
+        }
+        return new String(sArray);
+    }
+
+    private boolean isVowel(char c) {
+        Set<Character> set = new HashSet<Character>();
+        set.add('a');
+        set.add('e');
+        set.add('i');
+        set.add('o');
+        set.add('u');
+        set.add('A');
+        set.add('E');
+        set.add('I');
+        set.add('O');
+        set.add('U');
+        return set.contains(c);
+    }
+
     public static void main(String[] args) {
         String s = "dir\n\tsubdir1\n\t\tfile1.jpeg\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
 //        System.out.println(lengthLongestPath(s));

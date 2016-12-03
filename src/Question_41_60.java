@@ -9,6 +9,33 @@ import java.util.Stack;
 public class Question_41_60 {
 
     /**
+     * 41. First Missing Positive.
+     * @param nums
+     * @return
+     */
+    public int firstMissingPositive(int[] nums) {
+        int max = 0;
+        for (int n : nums) {
+            max = Math.max(max, n);
+        }
+        if (max <= 0) {
+            return 1;
+        }
+        int[] record = new int[max + 1];
+        for (int n : nums) {
+            if (n > 0) {
+                record[n] = 1;
+            }
+        }
+        for (int i = 1; i < record.length; i++) {
+            if (record[i] == 0) {
+                return i;
+            }
+        }
+        return record.length;
+    }
+
+    /**
      * 42. Trapping Rain Water.
      * @param height height
      * @return amount of water
