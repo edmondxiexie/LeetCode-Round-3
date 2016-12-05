@@ -318,6 +318,29 @@ public class Google {
         return set.contains(c);
     }
 
+    /**
+     * 209. Minimum Size Subarray Sum.
+     * @param s
+     * @param nums
+     * @return
+     */
+    public int minSubArrayLen(int s, int[] nums) {
+        int slow = 0;
+        int fast = 0;
+        int sum = 0;
+        int min = Integer.MAX_VALUE;
+        while (fast < nums.length) {
+            sum += nums[fast];
+            fast++;
+            while (sum >= s) {
+                min = Math.min(min, fast - slow);
+                sum -= nums[slow];
+                slow++;
+            }
+        }
+        return min;
+    }
+
     public static void main(String[] args) {
         String s = "dir\n\tsubdir1\n\t\tfile1.jpeg\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
 //        System.out.println(lengthLongestPath(s));
