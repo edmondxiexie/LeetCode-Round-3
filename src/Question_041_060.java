@@ -6,7 +6,7 @@ import java.util.Stack;
  * LeetCode Question 41 to 60
  * @author Edmond
  */
-public class Question_41_60 {
+public class Question_041_060 {
 
     /**
      * 41. First Missing Positive.

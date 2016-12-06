@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Question_21_40 {
+public class Question_021_040 {
     /**
      * 22. Generate Parentheses.
      * @param n

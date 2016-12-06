@@ -4,7 +4,7 @@ import java.util.*;
  * LeetCode Question 1 to 20
  * @author Edmond
  */
-public class Question_1_20 {
+public class Question_001_020 {
 
     /**
      * 1. Two Sum.
