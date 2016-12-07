@@ -41,35 +41,30 @@ public class Question_041_060 {
      * @return amount of water
      */
     public int trap(int[] height) {
+        // <index>
+        Stack<Integer> stack = new Stack<>();
         if (height == null || height.length == 0) {
             return 0;
         }
-        int sumWater = 0;
+        int sum = 0;
         int i = 0;
-        Stack<Integer> stack = new Stack<>();
-
-        // Always keep the current height is the smallest height in the stack
         while (i < height.length) {
             int curHeight = height[i];
             if (stack.isEmpty() || curHeight < height[stack.peek()]) {
                 stack.push(i);
                 i++;
             } else {
-                // There must be a "U" shape in the stack
-                int botHeight = height[stack.pop()];
-                int curWater = 0;
-                if (!stack.isEmpty()) {
-
-                    // min height
-                    int minHeight = Math.min(height[stack.peek()], height[i]) - botHeight;
-
-                    int width = i - stack.peek() - 1;
-                    curWater = minHeight * width;
+                int bottom = height[stack.pop()];
+                if (stack.isEmpty()) {
+                    continue;
                 }
-                sumWater += curWater;
+                int leftHeight = height[stack.peek()];
+                int width = i - stack.peek() - 1;
+                int depth = Math.min(leftHeight, curHeight) - bottom;
+                sum += width * depth;
             }
         }
-        return sumWater;
+        return sum;
     }
 
     public static void main(String[] args) {
