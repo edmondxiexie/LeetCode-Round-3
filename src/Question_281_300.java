@@ -2,6 +2,60 @@ import java.util.Arrays;
 
 public class Question_281_300 {
 
+    static final int INF = Integer.MAX_VALUE;
+
+    /**
+     * 286. Walls and Gates.
+     * @param rooms
+     */
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms == null || rooms.length == 0
+            || rooms[0] == null || rooms[0].length == 0) {
+            return;
+        }
+        int rows = rooms.length;
+        int cols = rooms[0].length;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (rooms[i][j] == 0) {
+                    DFSWallsAndGates(rooms, i, j, 0, i, j);
+                }
+            }
+        }
+    }
+
+    private void DFSWallsAndGates(int[][] rooms, int row, int col, int cur, int startRow, int startCol) {
+
+        if (row < 0 || row >= rooms.length
+            || col < 0 || col >= rooms[0].length) {
+            return;
+        }
+        if (rooms[row][col] == -1) {
+            return;
+        }
+        if (rooms[row][col] == 0 && (row != startRow || col != startCol)) {
+            return;
+        }
+        if (rooms[row][col] == INF) {
+            rooms[row][col] = cur;
+        } else if (rooms[row][col] > 0) {
+            int oldDis = rooms[row][col];
+            if (oldDis < cur) {
+                return;
+            } else {
+                rooms[row][col] = cur;
+            }
+        }
+
+        int[] dx = {0, 0, -1, +1};
+        int[] dy = {+1, -1, 0, 0};
+        for (int i = 0; i < 4; i++) {
+            int nextRow = row + dx[i];
+            int nextCol = col + dy[i];
+            DFSWallsAndGates(rooms, nextRow, nextCol, cur + 1, startRow, startCol);
+        }
+    }
+
     /**
      * 287. Find the Duplicate Number.
      * @param nums
