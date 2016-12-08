@@ -188,6 +188,37 @@ public class Question_021_040 {
         return -1;
     }
 
+    /**
+     * 32. Longest Valid Parentheses.
+     * @param s
+     * @return
+     */
+    public int longestValidParentheses(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int[] dp = new int[s.length()];
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                if (stack.isEmpty()) {
+                    continue;
+                } else {
+                    int start = stack.pop();
+                    int end = i;
+                    int curLen = end - start + 1;
+                    if (start > 0) {
+                        curLen += dp[start - 1];
+                    }
+                    dp[start] = curLen;
+                    dp[end] = curLen;
+                    max = Math.max(max, curLen);
+                }
+            }
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
         PriorityQueue<ListNode> queue = new PriorityQueue<>(new Comparator<ListNode>() {
             @Override
@@ -202,6 +233,7 @@ public class Question_021_040 {
         System.out.println(queue.poll().val);
         System.out.println(queue.poll().val);
         System.out.println(queue.toString());
+
     }
 
 }
