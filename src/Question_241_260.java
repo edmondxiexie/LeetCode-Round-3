@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Question_241_260 {
 
@@ -62,13 +59,50 @@ public class Question_241_260 {
         return true;
     }
 
+    public class timeNode {
+        int type;
+        int time;
+        public timeNode(int type, int time) {
+            this.time = time;
+            this.type = type;
+        }
+    }
+
     /**
      * 253. Meeting Rooms II.
      * @param intervals
      * @return
      */
     public int minMeetingRooms(Interval[] intervals) {
-
+        if (intervals == null || intervals.length == 0) {
+            return 0;
+        }
+        List<timeNode> nodes = new ArrayList<>();
+        for (Interval e : intervals) {
+            nodes.add(new timeNode(1, e.start));
+            nodes.add(new timeNode(0, e.end));
+        }
+        Collections.sort(nodes, new Comparator<timeNode>() {
+            @Override
+            public int compare(timeNode o1, timeNode o2) {
+                if (o1.time == o2.time) {
+                    return o1.type - o2.type;
+                } else {
+                    return o1.time - o2.time;
+                }
+            }
+        });
+        int max = 0;
+        int rooms = 0;
+        for (timeNode node : nodes) {
+            if (node.type == 1) {
+                rooms++;
+            } else {
+                rooms--;
+            }
+            max = Math.max(max, rooms);
+        }
+        return max;
     }
 
     /**
