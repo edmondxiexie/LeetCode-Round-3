@@ -1,11 +1,31 @@
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-/**
- * Created by Edmond on 12/8/16.
- */
 public class Question_421_440 {
+
+    /**
+     * 219. Contains Duplicate II.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        // <num>
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.size() > k) {
+                set.remove(nums[i - k - 1]);
+            }
+            if (set.contains(nums[i])) {
+                return true;
+            } else {
+                set.add(nums[i]);
+            }
+        }
+        return false;
+    }
 
     /**
      * 421. Maximum XOR of Two Numbers in an Array.
