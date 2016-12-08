@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,6 +36,40 @@ public class Question_421_440 {
             }
         }
         return max;
+    }
+
+    /**
+     * 422. Valid Word Square.
+     * @param words
+     * @return
+     */
+    public boolean validWordSquare(List<String> words) {
+        int rows = words.size();
+        int cols = 0;
+        for (String word : words) {
+            cols = Math.max(cols, word.length());
+        }
+        if (rows != cols) {
+            return false;
+        }
+        char[][] matrix = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (j >= words.get(i).length()) {
+                    matrix[i][j] = '$';
+                } else {
+                    matrix[i][j] = words.get(i).charAt(j);
+                }
+            }
+        }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] != matrix[j][i]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
