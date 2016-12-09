@@ -197,21 +197,79 @@ public class Question_421_440 {
         return result;
     }
 
-    public class TimeNode {
-        public int time;
+    int totalPathSum = 0;
+    /**
+     * 437. Path Sum III.
+     * @param root
+     * @param sum
+     * @return
+     */
+    public int pathSum(TreeNode root, int sum) {
+        int curSum = 0;
+        pathSum(root, sum, curSum);
+        pathSum(root.left, sum, curSum);
+        pathSum(root.right, sum, curSum);
+        return totalPathSum;
+    }
 
-        // start : 1 , end : 0
-        public int type;
-        public int from;
-        public TimeNode(int time, int type, int from) {
-            this.time = time;
-            this.type = type;
-            this.from = from;
+    private void pathSum(TreeNode root, int target, int curSum) {
+        if (root == null) {
+            return;
         }
+        curSum += root.val;
+        if (curSum == target) {
+            totalPathSum++;
+        }
+        pathSum(root.left, target, curSum);
+        pathSum(root.right, target, curSum);
+    }
+
+    /**
+     * 438. Find All Anagrams in a String.
+     * @param s
+     * @param p
+     * @return
+     */
+    public static List<Integer> findAnagrams(String s, String p) {
+        int targetLen = p.length();
+        int[] targetChars = new int[26];
+        for (char c : p.toCharArray()) {
+            targetChars[c - 'a']++;
+        }
+        int curLen = 0;
+        int[] curChars = new int[26];
+        List<Integer> result = new ArrayList<>();
+
+        int i = 0;
+        while (i < s.length()) {
+            char cur = s.charAt(i);
+            curChars[cur - 'a']++;
+            curLen++;
+            if (curChars[cur - 'a'] > targetChars[cur - 'a']) {
+                curChars[cur - 'a']--;
+                curLen--;
+                if (curLen == 0) {
+                    i++;
+                } else {
+                    int leftBound = i - curLen;
+                    char leftChar = s.charAt(leftBound);
+                    curChars[leftChar - 'a']--;
+                    curLen--;
+                }
+            } else if (curLen == targetLen) {
+                int start = i - curLen + 1;
+                result.add(start);
+                i++;
+            } else {
+                i++;
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) {
         int[] nums = {3, 10, 5, 25, 2, 8};
-        findMaximumXOR(nums);
+//        findMaximumXOR(nums);
+        findAnagrams("ebaebabacd", "abc");
     }
 }

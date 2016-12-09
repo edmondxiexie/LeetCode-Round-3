@@ -3,6 +3,19 @@ import java.util.*;
 public class Question_241_260 {
 
     /**
+     * 242. Valid Anagram.
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+    }
+
+    /**
      * 246. Strobogrammatic Number.
      * @param num
      * @return
