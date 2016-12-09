@@ -267,6 +267,16 @@ public class Question_421_440 {
         return result;
     }
 
+    /**
+     * 440. K-th Smallest in Lexicographical Order.
+     * @param n
+     * @param k
+     * @return
+     */
+    public int findKthNumber(int n, int k) {
+
+    }
+
     public static void main(String[] args) {
         int[] nums = {3, 10, 5, 25, 2, 8};
 //        findMaximumXOR(nums);

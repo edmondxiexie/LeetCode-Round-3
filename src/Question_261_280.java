@@ -1,8 +1,85 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Question_261_280 {
+
+    /**
+     * 266. Palindrome Permutation.
+     * @param s
+     * @return
+     */
+    public boolean canPermutePalindrome(String s) {
+        int[] chars = new int[128];
+        for (char c : s.toCharArray()) {
+            chars[c]++;
+        }
+        boolean oddAppear = false;
+        for (int n : chars) {
+            if (n % 2 == 1) {
+                if (!oddAppear) {
+                    oddAppear = true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 267. Palindrome Permutation II.
+     * @param s
+     * @return
+     */
+    public static List<String> generatePalindromes(String s) {
+        int[] chars = new int[128];
+        for (char c : s.toCharArray()) {
+            chars[c]++;
+        }
+        Set<String> result = new HashSet<>();
+        char[] strArray = new char[s.length()];
+        int left = 0;
+        int right = s.length() - 1;
+        int start = 0;
+        solveGeneratePal(result, chars, start, strArray, left, right);
+        return new ArrayList<>(result);
+    }
+
+    private static void solveGeneratePal(Set<String> result, int[] chars, int start, char[] strArray, int left, int right) {
+        if (left > right) {
+            result.add(new String(strArray));
+            return;
+        }
+
+        if (left == right) {
+            for (int i = 0; i < chars.length; i++) {
+                if (chars[i] == 1) {
+                    strArray[left] = (char)(i);
+                    result.add(new String(strArray));
+                    return;
+                }
+            }
+        }
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] <= 1) {
+                continue;
+            }
+            char c = (char)(i);
+            strArray[left] = c;
+            strArray[right] = c;
+            chars[i] -= 2;
+            solveGeneratePal(result, chars, start, strArray, left + 1, right - 1);
+            chars[i] += 2;
+
+        }
+    }
+
+
+    /**
+     * 271. Encode and Decode Strings.
+     * @param strs
+     * @return
+     */
     // Encodes a list of strings to a single string.
     public static String encode(List<String> strs) {
         StringBuilder result = new StringBuilder();
@@ -51,7 +128,8 @@ public class Question_261_280 {
 //        strs.add("abc&");
 //        strs.add("sgoaks///");
 //        strs.add("edmond");
-        System.out.println(encode(strs));
-        System.out.println(decode(encode(strs)));
+//        System.out.println(encode(strs));
+//        System.out.println(decode(encode(strs)));
+        System.out.println(generatePalindromes("aab"));
     }
 }

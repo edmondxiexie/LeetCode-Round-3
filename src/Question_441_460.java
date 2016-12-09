@@ -1,9 +1,25 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
  * Created by Edmond on 11/19/16.
  */
 public class Question_441_460 {
+
+    /**
+     * 441. Arranging Coins.
+     * @param n
+     * @return
+     */
+    public int arrangeCoins(int n) {
+        int k = 1;
+        while (n > k) {
+            n -= k;
+            k++;
+        }
+        return k;
+    }
+
     /**
      * 451. Sort Characters By Frequency
      * @param s string
@@ -92,5 +108,59 @@ public class Question_441_460 {
 //            last = count[i];
 //        }
 //        return result;
+    }
+
+    /**
+     * 452. Minimum Number of Arrows to Burst Balloons.
+     * @param points
+     * @return
+     */
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        int intersections = 0;
+        int last = 0;
+        for (int i = 1; i < points.length; i++) {
+            int curStart = points[i][0];
+            int lastEnd = points[last][1];
+            if (curStart < lastEnd) {
+                intersections++;
+                int curEnd = points[i][1];
+                last = (curEnd < lastEnd) ? i : last;
+            } else {
+                last = i;
+            }
+        }
+        return points.length - intersections;
+    }
+
+    /**
+     * 453. Minimum Moves to Equal Array Elements.
+     * @param nums
+     * @return
+     */
+    public int minMoves(int[] nums) {
+        int count = 0;
+        while (!isEqualArray(nums)) {
+            count++;
+            Arrays.sort(nums);
+            for (int i = 0; i < nums.length - 1; i++) {
+                nums[i]++;
+            }
+        }
+        return count;
+    }
+
+    private boolean isEqualArray(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] != nums[i + 1]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
