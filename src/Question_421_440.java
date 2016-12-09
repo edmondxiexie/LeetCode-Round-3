@@ -157,6 +157,59 @@ public class Question_421_440 {
         return total;
     }
 
+    public class Interval {
+        int start;
+        int end;
+
+        Interval() {
+            start = 0;
+            end = 0;
+        }
+
+        Interval(int s, int e) {
+            start = s;
+            end = e;
+        }
+    }
+
+    /**
+     * 435. Non-overlapping Intervals.
+     * @param intervals
+     * @return
+     */
+    public int eraseOverlapIntervals(Interval[] intervals) {
+        Arrays.sort(intervals, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.start - o2.start;
+            }
+        });
+        int result = 0;
+        int last = 0;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i].start < intervals[last].end) {
+                result++;
+                last = (intervals[i].end < intervals[last].end) ? i : last;
+            } else {
+                last = i;
+            }
+        }
+        return result;
+    }
+
+    public class TimeNode {
+        public int time;
+
+        // start : 1 , end : 0
+        public int type;
+        public int from;
+        public TimeNode(int time, int type, int from) {
+            this.time = time;
+            this.type = type;
+            this.from = from;
+        }
+    }
+
     public static void main(String[] args) {
         int[] nums = {3, 10, 5, 25, 2, 8};
         findMaximumXOR(nums);
