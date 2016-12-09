@@ -137,6 +137,26 @@ public class Question_421_440 {
         return maxLen;
     }
 
+    /**
+     * 434. Number of Segments in a String.
+     * @param s
+     * @return
+     */
+    public int countSegments(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        s = s.trim();
+        String[] strs = s.split(" ");
+        int total = strs.length;
+        for (String str : strs) {
+            if (str.length() == 0) {
+                total--;
+            }
+        }
+        return total;
+    }
+
     public static void main(String[] args) {
         int[] nums = {3, 10, 5, 25, 2, 8};
         findMaximumXOR(nums);
