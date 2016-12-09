@@ -1,3 +1,4 @@
+import java.lang.management.MemoryType;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -144,23 +145,15 @@ public class Question_441_460 {
      * @return
      */
     public int minMoves(int[] nums) {
-        int count = 0;
-        while (!isEqualArray(nums)) {
-            count++;
-            Arrays.sort(nums);
-            for (int i = 0; i < nums.length - 1; i++) {
-                nums[i]++;
-            }
+        int min = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            min = Math.min(min, nums[i]);
         }
-        return count;
+        int total = 0;
+        for (int n : nums) {
+            total += n - min;
+        }
+        return total;
     }
 
-    private boolean isEqualArray(int[] nums) {
-        for (int i = 0; i < nums.length - 1; i++) {
-            if (nums[i] != nums[i + 1]) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
