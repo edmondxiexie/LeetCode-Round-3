@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by Edmond on 11/29/16.
@@ -44,6 +42,31 @@ public class Question_201_220 {
             }
         }
         return true;
+    }
+
+    /**
+     * 219. Contains Duplicate II.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        // <num>
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.size() > k) {
+                set.remove(nums[i - k - 1]);
+            }
+            if (set.contains(nums[i])) {
+                return true;
+            } else {
+                set.add(nums[i]);
+            }
+        }
+        return false;
     }
 
     /**
