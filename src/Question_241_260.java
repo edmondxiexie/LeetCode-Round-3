@@ -12,7 +12,17 @@ public class Question_241_260 {
         if (s.length() != t.length()) {
             return false;
         }
-
+        int[] chars = new int[128];
+        for (char c : s.toCharArray()) {
+            chars[c]++;
+        }
+        for (char c : t.toCharArray()) {
+            chars[c]--;
+            if (chars[c] < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
