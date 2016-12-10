@@ -219,6 +219,40 @@ public class Question_021_040 {
         return max;
     }
 
+    /**
+     * 39. Combination Sum.
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        Arrays.sort(candidates);
+        int start = 0;
+        DFSCombinationSum(candidates, target, result, list, start);
+        return result;
+    }
+
+    private void DFSCombinationSum(int[] candidates, int target, List<List<Integer>> result,
+                                   List<Integer> list, int start) {
+        if (target == 0) {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+        if (target < 0) {
+            return;
+        }
+        for (int i = 0; i < candidates.length; i++) {
+            if (i > 0 && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            list.add(candidates[i]);
+            DFSCombinationSum(candidates, target - candidates[i], result, list, i);
+            list.remove(list.size() - 1);
+        }
+    }
+
     public static void main(String[] args) {
         PriorityQueue<ListNode> queue = new PriorityQueue<>(new Comparator<ListNode>() {
             @Override
