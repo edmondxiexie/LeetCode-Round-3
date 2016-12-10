@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Question_421_440 {
@@ -274,7 +273,7 @@ public class Question_421_440 {
      * @return
      */
     public int findKthNumber(int n, int k) {
-
+        return 0;
     }
 
     public static void main(String[] args) {
