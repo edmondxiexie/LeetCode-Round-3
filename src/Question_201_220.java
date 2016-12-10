@@ -70,6 +70,76 @@ public class Question_201_220 {
     }
 
     /**
+     * 218. The Skyline Problem.
+     * @param
+     * @return
+     */
+    public class BuildingNode {
+        // start : 1, end : 0
+        public int type;
+        public int height;
+        public int pos;
+        public BuildingNode(int t, int p, int h) {
+            type = t;
+            pos = p;
+            height = h;
+        }
+    }
+
+    public List<int[]> getSkyline(int[][] buildings) {
+        List<BuildingNode> nodes = new ArrayList<>();
+        for (int[] building : buildings) {
+            nodes.add(new BuildingNode(1, building[0], building[2]));
+            nodes.add(new BuildingNode(0, building[1], building[2]));
+        }
+        Collections.sort(nodes, new Comparator<BuildingNode>() {
+            @Override
+            public int compare(BuildingNode o1, BuildingNode o2) {
+                if (o1.pos != o2.pos) {
+                    return o1.pos - o2.pos;
+                } else if (o1.type != o2.type) {
+                    return o2.type - o1.type;
+                } else {
+                    if (o1.type == 1) {
+                        return o2.height - o1.height;
+                    } else {
+                        return o1.height - o2.height;
+                    }
+                }
+            }
+        });
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        List<int[]> result = new ArrayList<>();
+        int pre = 0;
+        for (int i = 0; i < nodes.size(); i++) {
+            BuildingNode curNode = nodes.get(i);
+            if (curNode.type == 1) {
+                maxHeap.offer(curNode.height);
+                if (maxHeap.peek() != pre) {
+                    result.add(new int[]{curNode.pos, maxHeap.peek()});
+                    pre = maxHeap.peek();
+                }
+            } else {
+                maxHeap.remove(curNode.height);
+                if (maxHeap.isEmpty()) {
+                    pre = 0;
+                    result.add(new int[]{curNode.pos, 0});
+                } else if (maxHeap.peek() != pre) {
+                    result.add(new int[]{curNode.pos, maxHeap.peek()});
+                    pre = maxHeap.peek();
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * 220. Contains Duplicate III.
      * @param nums
      * @param k
