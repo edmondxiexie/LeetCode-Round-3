@@ -46,6 +46,53 @@ public class Question_241_260 {
         return true;
     }
 
+    /**
+     * 247. Strobogrammatic Number II.
+     * @param n
+     * @return
+     */
+    public List<String> findStrobogrammatic(int n) {
+        Map<Character, Character> pairs = new HashMap<>();
+        pairs.put('0', '0');
+        pairs.put('8', '8');
+        pairs.put('6', '9');
+        pairs.put('9', '6');
+        pairs.put('1', '1');
+        List<String> result = new ArrayList<>();
+        if (n <= 0) {
+            return result;
+        }
+        int left = 0;
+        int right = n - 1;
+        char[] word = new char[n];
+        DFSFindStrobogrammatic(n, left, right, result, word, pairs);
+        return result;
+    }
+
+    private void DFSFindStrobogrammatic(int n, int left, int right, List<String> result, char[] word,
+                                        Map<Character, Character> pairs) {
+        if (left > right) {
+            result.add(new String(word));
+            return;
+        }
+        if (left == right) {
+            word[left] = '0';
+            result.add(new String(word));
+            word[left] = '1';
+            result.add(new String(word));
+            word[left] = '8';
+            result.add(new String(word));
+            return;
+        }
+        for (Character c : pairs.keySet()) {
+            if (c == '0' && left == 0) {
+                continue;
+            }
+            word[left] = c;
+            word[right] = pairs.get(c);
+            DFSFindStrobogrammatic(n, left + 1, right - 1, result, word, pairs);
+        }
+    }
 
     public class Interval {
         int start;
