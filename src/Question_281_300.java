@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Question_281_300 {
 
@@ -130,11 +132,63 @@ public class Question_281_300 {
         return board[row][col];
     }
 
+    /**
+     * 295. Find Median from Data Stream.
+     */
+    public static class MedianFinder {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+
+        // Adds a number into the data structure.
+        public void addNum(int num) {
+            if (minHeap.isEmpty()) {
+                minHeap.offer(num);
+            } else if (minHeap.size() > maxHeap.size()) {
+                maxHeap.offer(num);
+                if (maxHeap.peek() < minHeap.peek()) {
+                    minHeap.offer(maxHeap.poll());
+                    maxHeap.offer(minHeap.poll());
+                }
+            } else {
+                minHeap.offer(num);
+                if (maxHeap.peek() < minHeap.peek()) {
+                    minHeap.offer(maxHeap.poll());
+                    maxHeap.offer(minHeap.poll());
+                }
+            }
+        }
+
+        // Returns the median of current data stream
+        public double findMedian() {
+            if (maxHeap.size() == 0) {
+                return minHeap.peek();
+            }
+            if (minHeap.size() == maxHeap.size()) {
+                double first = minHeap.peek();
+                double second = maxHeap.peek();
+                return first + (second - first) / 2;
+            } else {
+                return minHeap.peek();
+            }
+        }
+    };
+
     public static void main(String[] args) {
         int[] nums = {4,3,1,4,2};
 //        System.out.println(findDuplicate(nums));
         int[][] n = {{1}};
-        gameOfLife(n);
-        System.out.println(Arrays.toString(n));
+//        gameOfLife(n);
+//        System.out.println(Arrays.toString(n));
+        MedianFinder m = new MedianFinder();
+        m.addNum(1);
+        m.addNum(2);
+        m.findMedian();
+        m.addNum(3);
+        m.findMedian();
     }
 }

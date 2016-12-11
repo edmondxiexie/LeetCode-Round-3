@@ -1,7 +1,56 @@
 import java.util.*;
 
 public class Question_401_420 {
-    
+
+    /**
+     * 401. Binary Watch.
+     * @param num
+     * @return
+     */
+    public List<String> readBinaryWatch(int num) {
+        List<String> result = new ArrayList<>();
+        if (num > 10) {
+            return result;
+        }
+        int[] hours = {1, 2, 4, 8};
+        int[] mins = {1, 2, 4, 8, 16, 32};
+        for (int h = 0; h <= 4 && h <= num; h++) {
+            int m = num - h;
+            if (h < 0 || m < 0) {
+                continue;
+            }
+            Set<String> hourSet = new HashSet<>();
+            Set<String> minSet = new HashSet<>();
+            findBinaryWatch(hours, hourSet, 0, 0, h);
+            findBinaryWatch(mins, minSet, 0, 0, m);
+            for (String hour : hourSet) {
+                for (String min : minSet) {
+                    String time = "";
+                    if (Integer.parseInt(hour) > 12 || Integer.parseInt(min) > 60) {
+                        continue;
+                    }
+                    time += hour + ":";
+                    time += (min.length() == 1) ? "0" + min : min;
+                    if (time.equals("12:00")) {
+                        continue;
+                    }
+                    result.add(time);
+                }
+            }
+        }
+        return result;
+    }
+
+    private void findBinaryWatch(int[] nums, Set<String> set, int start, int sum, int n) {
+        if (n == 0) {
+            set.add(sum + "");
+            return;
+        }
+        for (int i = start; i < nums.length; i++) {
+            findBinaryWatch(nums, set, i + 1, sum + nums[i], n - 1);
+        }
+    }
+
     /**
      * 406. Queue Reconstruction by Height.
      * @param people
@@ -124,7 +173,10 @@ public class Question_401_420 {
         return count;
     }
 
-
+    public static void main(String[] args) {
+        Question_401_420 n = new Question_401_420();
+        n.readBinaryWatch(2);
+    }
 
 
 

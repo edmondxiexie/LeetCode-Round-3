@@ -98,6 +98,39 @@ public class Question_041_060 {
         }
     }
 
+    /**
+     * 47. Permutations II.
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Set<List<Integer>> result = new HashSet<>();
+        List<Integer> list = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return new ArrayList<>(result);
+        }
+        boolean[] visited = new boolean[nums.length];
+        DFSPermute(nums, result, list, visited);
+        return new ArrayList<>(result);
+    }
+
+    private void DFSPermute(int[] nums, Set<List<Integer>> result, List<Integer> list, boolean[] visited) {
+        if (list.size() == nums.length) {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i]) {
+                continue;
+            }
+            list.add(nums[i]);
+            visited[i] = true;
+            DFSPermute(nums, result, list, visited);
+            visited[i] = false;
+            list.remove(list.size() - 1);
+        }
+    }
+
     public static void main(String[] args) {
         Map<Character, Integer> map = new HashMap<>();
         String s = "she sells seashells on the seashore";
