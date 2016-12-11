@@ -92,6 +92,28 @@ public class Question_261_280 {
         return result.toString();
     }
 
+    /**
+     * 276. Paint Fence.
+     * @param n
+     * @param k
+     * @return
+     */
+    public int numWays(int n, int k) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return k;
+        }
+        int[] dp = new int[n];
+        dp[0] = k;
+        dp[1] = dp[0] * k;
+        for (int i = 2; i < n; i++) {
+            dp[i] = dp[i - 1] * (k - 1) + dp[i - 2] * (k - 1);
+        }
+        return dp[n - 1];
+    }
+
     // Decodes a single string to a list of strings.
     public static List<String> decode(String s) {
         List<String> result = new ArrayList<>();

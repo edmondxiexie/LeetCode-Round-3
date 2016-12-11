@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Question_281_300 {
 
@@ -130,6 +128,54 @@ public class Question_281_300 {
             }
         }
         return board[row][col];
+    }
+
+    /**
+     * 293. Flip Game.
+     * @param s
+     * @return
+     */
+    public List<String> generatePossibleNextMoves(String s) {
+        List<String> result = new ArrayList<>();
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (chars[i] == chars[i + 1] && chars[i] == '+') {
+                chars[i] = '-';
+                chars[i + 1] = '-';
+                result.add(new String(chars));
+                chars[i] = '+';
+                chars[i + 1] = '+';
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 294. Flip Game II.
+     * @param s
+     * @return
+     */
+    public boolean canWin(String s) {
+        if (s.length() < 2) {
+            return false;
+        }
+        boolean cluster = false;
+        int start = -1;
+        int end = -1;
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) == s.charAt(i + 1) && s.charAt(i) == '+') {
+                if (i != end && cluster) {
+                    return false;
+                }
+                if (!cluster) {
+                    cluster = true;
+                    start = i;
+                }
+                end = i + 1;
+            }
+        }
+        int len = end - start + 1;
+        return len >= 2 && len <= 4;
     }
 
     /**
