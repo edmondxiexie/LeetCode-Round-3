@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Question_341_360 {
 
     /**
@@ -59,6 +62,35 @@ public class Question_341_360 {
             return keypad[s + 1];
         }
         return true;
+    }
+
+    /**
+     * 359. Logger Rate Limiter.
+     */
+    public class Logger {
+        Map<String, Integer> timeMap;
+
+        /** Initialize your data structure here. */
+        public Logger() {
+            timeMap = new HashMap<>();
+        }
+
+        /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
+         If this method returns false, the message will not be printed.
+         The timestamp is in seconds granularity. */
+        public boolean shouldPrintMessage(int timestamp, String message) {
+            if (!timeMap.containsKey(message)) {
+                timeMap.put(message, timestamp);
+                return true;
+            }
+            int lastTime = timeMap.get(message);
+            if (timestamp - lastTime >= 10) {
+                timeMap.put(message, timestamp);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public static void main(String[] args) {
