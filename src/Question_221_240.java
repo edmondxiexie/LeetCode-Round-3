@@ -76,6 +76,22 @@ public class Question_221_240 {
     }
 
     /**
+     * 226. Invert Binary Tree.
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return root;
+        }
+        TreeNode tmp;
+        tmp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(tmp);
+        return root;
+    }
+
+    /**
      * 228. Summary Ranges.
      * @param nums
      * @return
