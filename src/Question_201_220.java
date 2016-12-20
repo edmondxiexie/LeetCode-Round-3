@@ -45,6 +45,34 @@ public class Question_201_220 {
     }
 
     /**
+     * 205. Isomorphic Strings.
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        Map<Character, Character> pairs = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char sChar = s.charAt(i);
+            char tChar = t.charAt(i);
+            if (pairs.containsKey(sChar)) {
+                if (tChar != pairs.get(sChar)) {
+                    return false;
+                }
+            } else {
+                if (pairs.containsValue(tChar)) {
+                    return false;
+                }
+                pairs.put(sChar, tChar);
+            }
+        }
+        return true;
+    }
+
+    /**
      * 219. Contains Duplicate II.
      * @param nums
      * @param k
