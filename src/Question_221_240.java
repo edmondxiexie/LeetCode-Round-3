@@ -127,7 +127,29 @@ public class Question_221_240 {
         return result;
     }
 
+    /**
+     * 231. Power of Two.
+     * @param n
+     * @return
+     */
+    public static boolean isPowerOfTwo(int n) {
+        int mask = 1;
+        int count = 0;
+        for (int i = 0; i < 31; i++) {
+            count += n & mask;
+            if (count > 1) {
+                return false;
+            }
+            n = n >> 1;
+        }
+        if ((n & mask) == 1) {
+            return false;
+        }
+        return count == 1;
+    }
+
     public static void main(String[] args) {
-        System.out.println(computeArea(-1500000001, 0, -1500000000, 1, 1500000000, 0, 1500000001, 1));
+//        System.out.println(computeArea(-1500000001, 0, -1500000000, 1, 1500000000, 0, 1500000001, 1));
+        System.out.println(isPowerOfTwo(-2147483648));
     }
 }
