@@ -1,9 +1,6 @@
 import com.sun.tools.javac.util.ListBuffer;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Question_221_240 {
 
@@ -146,6 +143,49 @@ public class Question_221_240 {
             return false;
         }
         return count == 1;
+    }
+
+    /**
+     * 232. Implement Queue using Stacks.
+     */
+    class MyQueue {
+        Stack<Integer> mainStack = new Stack<>();
+        Stack<Integer> viceStack = new Stack<>();
+        Stack<Integer> tmp = new Stack<>();
+
+        // Push element x to the back of queue.
+        public void push(int x) {
+            mainStack.push(x);
+        }
+
+        // Removes the element from in front of queue.
+        public void pop() {
+            while (mainStack.size() > 1) {
+                viceStack.push(mainStack.pop());
+            }
+            mainStack.pop();
+            while (!viceStack.isEmpty()) {
+                mainStack.push(viceStack.pop());
+            }
+        }
+
+        // Get the front element.
+        public int peek() {
+            while (mainStack.size() > 1) {
+                viceStack.push(mainStack.pop());
+            }
+            int result = mainStack.peek();
+            viceStack.push(mainStack.pop());
+            while (!viceStack.isEmpty()) {
+                mainStack.push(viceStack.pop());
+            }
+            return result;
+        }
+
+        // Return whether the queue is empty.
+        public boolean empty() {
+            return mainStack.size() == 0;
+        }
     }
 
     public static void main(String[] args) {
