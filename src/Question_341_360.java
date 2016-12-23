@@ -4,6 +4,15 @@ import java.util.Map;
 public class Question_341_360 {
 
     /**
+     * 342. Power of Four.
+     * @param num
+     * @return
+     */
+    public boolean isPowerOfFour(int num) {
+        return (Math.log10(num) / Math.log10(4)) % 1 == 0;
+    }
+
+    /**
      * 351. Android Unlock Patterns.
      * @param m
      * @param n
