@@ -252,6 +252,37 @@ public class Question_281_300 {
         }
     };
 
+    /**
+     * 299. Bulls and Cows.
+     * @param secret
+     * @param guess
+     * @return
+     */
+    public String getHint(String secret, String guess) {
+        int bulls = 0;
+        int cows = 0;
+        for (int i = 0; i < Math.min(secret.length(), guess.length()); i++) {
+            if (secret.charAt(i) == guess.charAt(i)) {
+                bulls++;
+            }
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : secret.toCharArray()) {
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) + 1);
+            } else {
+                map.put(c, 1);
+            }
+        }
+        for (char c : guess.toCharArray()) {
+            if (map.containsKey(c) && map.get(c) > 0) {
+                cows++;
+                map.put(c, map.get(c) - 1);
+            }
+        }
+        return bulls + "A" + (cows - bulls) + "B";
+    }
+
     public static void main(String[] args) {
         int[] nums = {4,3,1,4,2};
 //        System.out.println(findDuplicate(nums));
