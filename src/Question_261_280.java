@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.regex.Matcher;
 
 public class Question_261_280 {
 
@@ -74,6 +75,61 @@ public class Question_261_280 {
         }
     }
 
+    /**
+     * 270. Closest Binary Search Tree Value.
+     * @param root
+     * @param target
+     * @return
+     */
+    public int closestValue(TreeNode root, double target) {
+        boolean isLeft = false;
+        boolean isRight = false;
+        if (root == null) {
+            return 0;
+        }
+        int last = root.val;
+        TreeNode cur = root;
+        while (cur != null) {
+            if (target == cur.val) {
+                return cur.val;
+            } else if (target > cur.val) {
+                if (isLeft) {
+                    int tmp = closestValue(cur, target);
+                    return (Math.abs(last - target) < Math.abs(tmp - target)) ? last : tmp;
+                } else {
+                    last = cur.val;
+                    cur = cur.right;
+                    isRight = true;
+                }
+            } else {
+                if (isRight) {
+                    int tmp = closestValue(cur, target);
+                    return (Math.abs(last - target) < Math.abs(tmp - target)) ? last : tmp;
+                } else {
+                    last = cur.val;
+                    cur = cur.left;
+                    isLeft = true;
+                }
+            }
+        }
+        return last;
+    }
+
+    private int getMostSide(TreeNode cur, boolean isLeft) {
+        int result = cur.val;
+        if (isLeft) {
+            while (cur != null) {
+                result = cur.val;
+                cur = cur.left;
+            }
+        } else {
+            while (cur != null) {
+                result = cur.val;
+                cur = cur.right;
+            }
+        }
+        return result;
+    }
 
     /**
      * 271. Encode and Decode Strings.
