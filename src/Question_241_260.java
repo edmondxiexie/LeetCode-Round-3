@@ -211,6 +211,42 @@ public class Question_241_260 {
     }
 
     /**
+     * 257. Binary Tree Paths.
+     * @param root
+     * @return
+     */
+    public static List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        DFSBinaryTreePaths(result, root, root.val + "");
+        return result;
+    }
+
+    private static void DFSBinaryTreePaths(List<String> result, TreeNode root, String s) {
+        if (root.left == null && root.right == null) {
+            result.add(s);
+            return;
+        }
+        if (root.left != null) {
+            DFSBinaryTreePaths(result, root.left, s + "->" + root.left.val);
+        }
+        if (root.right != null) {
+            DFSBinaryTreePaths(result, root.right, s + "->" + root.right.val);
+        }
+    }
+
+    /**
+     * 258. Add Digits.
+     * @param num
+     * @return
+     */
+    public int addDigits(int num) {
+        return (num - 1) % 9 + 1;
+    }
+
+    /**
      * 259. 3Sum Smaller.
      * @param nums
      * @param target
@@ -257,7 +293,14 @@ public class Question_241_260 {
 
     public static void main(String[] args) {
         int n = 1908;
-        String str = Integer.toString(n);
-        System.out.println(str);
+//        String str = Integer.toString(n);
+//        System.out.println(str);
+        TreeNode a = new TreeNode(1);
+        TreeNode b = new TreeNode(2);
+        TreeNode c = new TreeNode(3);
+        a.left = b;
+        a.right = c;
+        binaryTreePaths(a);
+
     }
 }
