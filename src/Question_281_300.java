@@ -131,6 +131,34 @@ public class Question_281_300 {
     }
 
     /**
+     * 290. Word Pattern.
+     * @param pattern
+     * @param str
+     * @return
+     */
+    public boolean wordPattern(String pattern, String str) {
+        Map<Character, String> map = new HashMap<>();
+        String[] strs = str.split(" ");
+        if (pattern.length() != strs.length) {
+            return false;
+        }
+        for (int i = 0; i < pattern.length(); i++) {
+            char c = pattern.charAt(i);
+            if (!map.containsKey(c)) {
+                if (map.containsValue(strs[i])) {
+                    return false;
+                }
+                map.put(c, strs[i]);
+            } else {
+                if (!map.get(c).equals(strs[i])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * 293. Flip Game.
      * @param s
      * @return
