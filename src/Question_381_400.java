@@ -50,6 +50,30 @@ public class Question_381_400 {
     }
 
     /**
+     * 396. Rotate Function.
+     * @param A
+     * @return
+     */
+    public int maxRotateFunction(int[] A) {
+        List<Integer> nums = new ArrayList<>();
+        for (int i = 0; i < A.length; i++) {
+            nums.add(i);
+        }
+        int max = 0;
+        for (int i = 0; i < A.length; i++) {
+            int sum = 0;
+            for (int j = 0; j < A.length; j++) {
+                sum += A[j] * nums.get(j);
+            }
+            max = (i == 0) ? sum : Math.max(max, sum);
+            int num = nums.get(0);
+            nums.remove(0);
+            nums.add(num);
+        }
+        return max;
+    }
+
+    /**
      * 399. Evaluate Division.
      * @param equations
      * @param values
