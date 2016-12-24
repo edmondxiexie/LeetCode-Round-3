@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Question_341_360 {
 
@@ -10,6 +9,42 @@ public class Question_341_360 {
      */
     public boolean isPowerOfFour(int num) {
         return (Math.log10(num) / Math.log10(4)) % 1 == 0;
+    }
+
+    /**
+     * 349. Intersection of Two Arrays.
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int p1 = 0;
+        int p2 = 0;
+        List<Integer> list = new ArrayList<>();
+        while (p1 < nums1.length && p2 < nums2.length) {
+            if (nums1[p1] < nums2[p2]) {
+                p1++;
+            } else if (nums2[p2] < nums1[p1]) {
+                p2++;
+            } else {
+                list.add(nums1[p1]);
+                p1++;
+                p2++;
+                while (p1 < nums1.length && nums1[p1] == nums1[p1 - 1]) {
+                    p1++;
+                }
+                while (p2 < nums2.length && nums2[p2] == nums2[p2 - 1]) {
+                    p2++;
+                }
+            }
+        }
+        int[] result = new int[list.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = list.get(i);
+        }
+        return result;
     }
 
     /**
