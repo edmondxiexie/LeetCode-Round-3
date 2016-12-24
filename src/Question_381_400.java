@@ -3,6 +3,30 @@ import java.util.*;
 public class Question_381_400 {
 
     /**
+     * 387. First Unique Character in a String.
+     * @param s
+     * @return
+     */
+    public static int firstUniqChar(String s) {
+        List<Integer> list = new ArrayList<>();
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                if (map.get(c) == -1) {
+                    continue;
+                }
+                list.remove(list.indexOf(map.get(c)));
+                map.put(c, -1);
+            } else {
+                list.add(i);
+                map.put(c, i);
+            }
+        }
+        return (list.size() > 0) ? list.get(0) : -1;
+    }
+
+    /**
      * 394. Decode String.
      * @param s
      * @return
@@ -224,4 +248,9 @@ public class Question_381_400 {
 //        }
 //        return -1.0;
 //    }
+
+    public static void main(String[] args) {
+        System.out.println(firstUniqChar("leetcode"));
+//        System.out.println();
+    }
 }
