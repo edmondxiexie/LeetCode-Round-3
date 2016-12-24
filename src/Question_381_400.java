@@ -47,6 +47,26 @@ public class Question_381_400 {
     }
 
     /**
+     * 389. Find the Difference.
+     * @param s
+     * @param t
+     * @return
+     */
+    public char findTheDifference(String s, String t) {
+        int[] letters = new int[128];
+        for (char c : s.toCharArray()) {
+            letters[c]++;
+        }
+        for (char c : t.toCharArray()) {
+            letters[c]--;
+            if (letters[c] < 0) {
+                return c;
+            }
+        }
+        return 'a';
+    }
+
+    /**
      * 394. Decode String.
      * @param s
      * @return
