@@ -3,6 +3,26 @@ import java.util.*;
 public class Question_381_400 {
 
     /**
+     * 383. Ransom Note.
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] letters = new int[128];
+        for (char c : magazine.toCharArray()) {
+            letters[c]++;
+        }
+        for (char c : ransomNote.toCharArray()) {
+            letters[c]--;
+            if (letters[c] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 387. First Unique Character in a String.
      * @param s
      * @return
