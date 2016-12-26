@@ -122,6 +122,39 @@ public class Question_401_420 {
     }
 
     /**
+     * 409. Longest Palindrome.
+     * @param s
+     * @return
+     */
+    public int longestPalindrome(String s) {
+        int[] letters = new int[128];
+        for (char c : s.toCharArray()) {
+            letters[c]++;
+        }
+        int single = 0;
+        int count = 0;
+        for (int n : letters) {
+            if (n == 0) {
+                continue;
+            } else if (n == 1) {
+                single++;
+            } else if (n % 2 == 0) {
+                count += n;
+            } else {
+                if (single == 0) {
+                    single++;
+                }
+                count += n - 1;
+            }
+        }
+        if (single == 0) {
+            return count;
+        } else {
+            return count + 1;
+        }
+    }
+
+    /**
      * 417. Pacific Atlantic Water Flow.
      * @param matrix
      * @return
