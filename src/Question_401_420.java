@@ -52,6 +52,34 @@ public class Question_401_420 {
     }
 
     /**
+     * 404. Sum of Left Leaves.
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        DFSSumOfLeftLeaves(root, false);
+        return sumOfLeft;
+    }
+
+    private int sumOfLeft = 0;
+
+    private void DFSSumOfLeftLeaves(TreeNode root, boolean isLeft) {
+        if (root.left == null && root.right == null && isLeft) {
+            sumOfLeft += root.val;
+            return;
+        }
+        if (root.left != null) {
+            DFSSumOfLeftLeaves(root.left, true);
+        }
+        if (root.right != null) {
+            DFSSumOfLeftLeaves(root.right, false);
+        }
+    }
+
+    /**
      * 406. Queue Reconstruction by Height.
      * @param people
      * @return
