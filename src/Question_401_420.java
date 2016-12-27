@@ -122,6 +122,37 @@ public class Question_401_420 {
     }
 
     /**
+     * 408. Valid Word Abbreviation.
+     * @param word
+     * @param abbr
+     * @return
+     */
+    public static boolean validWordAbbreviation(String word, String abbr) {
+        int wordIndex = 0;
+        int abbrIndex = 0;
+        while (abbrIndex < abbr.length() && wordIndex < word.length()) {
+            if (abbr.charAt(abbrIndex) > '0' && abbr.charAt(abbrIndex) <= '9') {
+                int end = abbrIndex + 1;
+                while (end < abbr.length() && abbr.charAt(end) >= '0' && abbr.charAt(end) <= '9') {
+                    end++;
+                }
+                int num = Integer.parseInt(abbr.substring(abbrIndex, end));
+                for (int i = 0; i < num; i++) {
+                    wordIndex++;
+                }
+                abbrIndex = end;
+            } else {
+                if (abbr.charAt(abbrIndex) != word.charAt(wordIndex)) {
+                    return false;
+                }
+                abbrIndex++;
+                wordIndex++;
+            }
+        }
+        return (wordIndex == word.length() && abbrIndex == abbr.length());
+    }
+
+    /**
      * 409. Longest Palindrome.
      * @param s
      * @return
@@ -253,8 +284,9 @@ public class Question_401_420 {
     }
 
     public static void main(String[] args) {
-        Question_401_420 n = new Question_401_420();
-        n.readBinaryWatch(2);
+//        Question_401_420 n = new Question_401_420();
+//        n.readBinaryWatch(2);
+        validWordAbbreviation("internationalization", "i12iz4n");
     }
 
 
