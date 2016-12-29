@@ -39,4 +39,38 @@ public class Question_461_480 {
         }
         return total;
     }
+
+    /**
+     * 463. Island Perimeter.
+     * @param grid
+     * @return
+     */
+    public int islandPerimeter(int[][] grid) {
+        int perimeter = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    int neighboor = countSurrounding(grid, i, j);
+                    perimeter += (4 - neighboor);
+                }
+            }
+        }
+        return perimeter;
+    }
+
+    private int countSurrounding(int[][] grid, int row, int col) {
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+        int count = 0;
+        for (int i = 0; i < dx.length; i++) {
+            int nextRow = row + dx[i];
+            int nextCol = col + dy[i];
+            if (nextRow >= 0 && nextRow < grid.length
+                && nextCol >= 0 && nextCol < grid[0].length
+                && grid[nextRow][nextCol] == 1) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
