@@ -22,6 +22,40 @@ public class Question_441_460 {
     }
 
     /**
+     * 447. Number of Boomerangs.
+     * @param points
+     * @return
+     */
+    public int numberOfBoomerangs(int[][] points) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        for (int i = 0; i < points.length; i++) {
+            for (int j = 0; j < points.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                int d = getDistance(points[i], points[j]);
+                if (map.containsKey(d)) {
+                    map.put(d, map.get(d) + 1);
+                } else {
+                    map.put(d, 1);
+                }
+            }
+            for (int n : map.values()) {
+                res += n * (n - 1);
+            }
+            map.clear();
+        }
+        return res;
+    }
+
+    private int getDistance(int[] a, int[] b) {
+        int dx = a[0] - b[0];
+        int dy = a[1] - b[1];
+        return dx * dx + dy * dy;
+    }
+
+    /**
      * 451. Sort Characters By Frequency
      * @param s string
      * @return sorted string
