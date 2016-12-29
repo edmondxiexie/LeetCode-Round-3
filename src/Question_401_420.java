@@ -224,6 +224,43 @@ public class Question_401_420 {
         return pq.peek();
     }
 
+
+    /**
+     * 415. Add Strings.
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String addStrings(String num1, String num2) {
+        int i1 = num1.length() - 1;
+        int i2 = num2.length() - 1;
+        int carry = 0;
+        String res = "";
+        while (i1 >= 0 || i2 >= 0 || carry > 0) {
+            if (i1 < 0 && i2 < 0) {
+                res = carry + res;
+                carry = 0;
+            } else if (i1 < 0) {
+                int tmp = ((num2.charAt(i2) - '0')) + carry;
+                res = tmp % 10 + res;
+                carry = tmp / 10;
+                i2--;
+            } else if (i2 < 0) {
+                int tmp = ((num1.charAt(i1) - '0')) + carry;
+                res = tmp % 10 + res;
+                carry = tmp / 10;
+                i1--;
+            } else {
+                int tmp = (num1.charAt(i1) - '0' + (num2.charAt(i2) - '0')) + carry;
+                res = tmp % 10 + res;
+                carry = tmp / 10;
+                i1--;
+                i2--;
+            }
+        }
+        return res;
+    }
+
     /**
      * 417. Pacific Atlantic Water Flow.
      * @param matrix
