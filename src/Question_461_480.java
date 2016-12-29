@@ -6,6 +6,23 @@ import java.util.Arrays;
 public class Question_461_480 {
 
     /**
+     * 461. Hamming Distance.
+     * @param x
+     * @param y
+     * @return
+     */
+    public int hammingDistance(int x, int y) {
+        int tmp = x ^ y;
+        int count = 0;
+        int mask = 1;
+        for (int i = 0; i < 32; i++) {
+            count += tmp & mask;
+            tmp = tmp >> 1;
+        }
+        return count;
+    }
+
+    /**
      * 462. Minimum Moves to Equal Array Elements II.
      * @param nums
      * @return
