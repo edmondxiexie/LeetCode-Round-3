@@ -56,6 +56,25 @@ public class Question_441_460 {
     }
 
     /**
+     * 448. Find All Numbers Disappeared in an Array.
+     * @param nums
+     * @return
+     */
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        int[] record = new int[nums.length + 1];
+        for (int n : nums) {
+            record[n]++;
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 1; i < record.length; i++) {
+            if (record[i] == 0) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
+
+    /**
      * 451. Sort Characters By Frequency
      * @param s string
      * @return sorted string
