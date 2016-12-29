@@ -233,4 +233,31 @@ public class Question_441_460 {
         return count;
     }
 
+    /**
+     * 459. Repeated Substring Pattern.
+     * @param str
+     * @return
+     */
+    public boolean repeatedSubstringPattern(String str) {
+        char start = str.charAt(0);
+        for (int i = 1; i < str.length(); i++) {
+            if (str.charAt(i) == start) {
+                if (checkSubstring(str.substring(0, i), str)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkSubstring(String sub, String s) {
+        while (s.length() > 0) {
+            if (!s.startsWith(sub)) {
+                return false;
+            }
+            s = s.substring(sub.length());
+        }
+        return true;
+    }
+
 }
