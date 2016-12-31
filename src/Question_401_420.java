@@ -207,6 +207,32 @@ public class Question_401_420 {
     }
 
     /**
+     * 413. Arithmetic Slices.
+     * @param A
+     * @return
+     */
+    public static int numberOfArithmeticSlices(int[] A) {
+        int[] dp = new int[A.length];
+        for (int i = 1; i < dp.length; i++) {
+            dp[i] = A[i] - A[i - 1];
+        }
+        int result = 0;
+        int count = 1;
+        for (int i = 2; i < dp.length + 1; i++) {
+            if (i == dp.length || dp[i] != dp[i - 1]) {
+                int len = count + 1;
+                if (len >= 3) {
+                    result += (int)((len - 2 + 1) * (len - 2) / 2.0);
+                }
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+        return result;
+    }
+
+    /**
      * 414. Third Maximum Number.
      * @param nums
      * @return
@@ -362,7 +388,9 @@ public class Question_401_420 {
     public static void main(String[] args) {
 //        Question_401_420 n = new Question_401_420();
 //        n.readBinaryWatch(2);
-        validWordAbbreviation("internationalization", "i12iz4n");
+//        validWordAbbreviation("internationalization", "i12iz4n");
+        int[] nums = {1,2,3,4};
+        System.out.println(numberOfArithmeticSlices(nums));
     }
 
 
