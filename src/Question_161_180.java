@@ -1,6 +1,55 @@
 import java.util.*;
 
 public class Question_161_180 {
+
+    /**
+     * 161. One Edit Distance.
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isOneEditDistance(String s, String t) {
+        if (Math.abs(s.length() - t.length()) > 1) {
+            return false;
+        }
+        if (s.equals(t)) {
+            return false;
+        }
+        if (s.length() == 0 || t.length() == 0) {
+            return true;
+        }
+        int i = 0;
+        int j = 0;
+        int diff = 0;
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                if (s.length() > t.length()) {
+                    i++;
+                } else if (s.length() < t.length()) {
+                    j++;
+                } else {
+                    i++;
+                    j++;
+                }
+                diff++;
+                if (diff > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 163. Missing Ranges.
+     * @param nums
+     * @param lower
+     * @param upper
+     * @return
+     */
     public static List<String> findMissingRanges(int[] nums, int lower, int upper) {
         List<String> result = new ArrayList<>();
 
