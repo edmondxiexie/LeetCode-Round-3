@@ -125,6 +125,54 @@ public class Question_221_240 {
     }
 
     /**
+     * 229. Majority Element II.
+     * @param nums
+     * @return
+     */
+    public List<Integer> majorityElement(int[] nums) {
+        // Boyer-Moore：A Linear Time Majority Vote Alogrithm
+        List<Integer> res = new ArrayList<>();
+        int candidate1 = 0;
+        int candidate2 = 1;
+        int count1 = 0;
+        int count2 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int candidate3 = nums[i];
+            if (candidate1 == candidate3) {
+                count1++;
+            } else if (candidate2 == candidate3) {
+                count2++;
+            } else if (count1 == 0) {
+                candidate1 = candidate3;
+                count1++;
+            } else if (count2 == 0) {
+                candidate2 = candidate3;
+                count2++;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+        count1 = 0;
+        count2 = 0;
+        for (int n : nums) {
+            if (n == candidate1) {
+                count1++;
+            }
+            if (n == candidate2) {
+                count2++;
+            }
+        }
+        if (count1 > nums.length / 3) {
+            res.add(candidate1);
+        }
+        if (count2 > nums.length / 3) {
+            res.add(candidate2);
+        }
+        return res;
+    }
+
+    /**
      * 231. Power of Two.
      * @param n
      * @return
