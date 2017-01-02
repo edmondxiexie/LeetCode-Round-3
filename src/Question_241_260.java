@@ -61,6 +61,47 @@ public class Question_241_260 {
     }
 
     /**
+     * 245. Shortest Word Distance III.
+     * @param words
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        int index1 = -1;
+        int index2 = -1;
+        int min = words.length;
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(word1) && words[i].equals(word2)) {
+                if (index1 <= index2) {
+                    index1 = i;
+                    if (index1 != -1 && index2 != -1) {
+                        min = Math.min(i - index2, min);
+                    }
+                } else {
+                    index2 = i;
+                    if (index1 != - 1 && index2 != -1) {
+                        min = Math.min(i - index1, min);
+                    }
+                }
+            }
+            else if (words[i].equals(word1)) {
+                index1 = i;
+                if (index1 != -1 && index2 != -1) {
+                    min = Math.min(i - index2, min);
+                }
+            }
+            else if (words[i].equals(word2)) {
+                index2 = i;
+                if (index1 != -1 && index2 != -1) {
+                    min = Math.min(i - index1, min);
+                }
+            }
+        }
+        return min;
+    }
+
+    /**
      * 246. Strobogrammatic Number.
      * @param num
      * @return
