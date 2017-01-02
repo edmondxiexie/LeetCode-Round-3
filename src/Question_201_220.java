@@ -234,6 +234,8 @@ public class Question_201_220 {
 //        System.out.println(countPrimes(6));
         boolean[] m = new boolean[10];
 //        System.out.println(m[0]);
-        System.out.println(combinationSum3(3, 7));
+//        System.out.println(combinationSum3(3, 7));
+        System.out.println("".compareTo("aaa"));
     }
+
 }
