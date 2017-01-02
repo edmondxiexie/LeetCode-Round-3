@@ -76,7 +76,34 @@ public class Question_201_220 {
      * @return
      */
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        return true;
+    }
 
+    /**
+     * 216. Combination Sum III.
+     * @param k
+     * @param n
+     * @return
+     */
+    public static List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        DFSCombinationSum3(res, list, k, n, 1);
+        return res;
+    }
+
+    private static void DFSCombinationSum3(List<List<Integer>> res, List<Integer> list, int k, int target, int start) {
+        if (list.size() == k - 1 && target >= start && target <= 9) {
+            list.add(target);
+            res.add(new ArrayList<>(list));
+            list.remove(list.size() - 1);
+            return;
+        }
+        for (int n = start; n < 9; n++) {
+            list.add(n);
+            DFSCombinationSum3(res, list, k, target - n, n + 1);
+            list.remove(list.size() - 1);
+        }
     }
 
     /**
@@ -204,9 +231,9 @@ public class Question_201_220 {
     }
 
     public static void main(String[] args) {
-        System.out.println(countPrimes(6));
+//        System.out.println(countPrimes(6));
         boolean[] m = new boolean[10];
-        System.out.println(m[0]);
-
+//        System.out.println(m[0]);
+        System.out.println(combinationSum3(3, 7));
     }
 }
