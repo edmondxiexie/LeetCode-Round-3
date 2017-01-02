@@ -109,6 +109,27 @@ public class Question_161_180 {
         }
     }
 
+    /**
+     * 169. Majority Element.
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int candidate = 0;
+        int count = 0;
+        for (int n : nums) {
+            if (count == 0) {
+                candidate = n;
+                count++;
+            } else if (candidate == n) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        return candidate;
+    }
+
     public static void main(String[] args) {
         int[] nums = {-1, 0,1,3,50,75, 150};
         System.out.println(findMissingRanges(nums, -100, 4));
