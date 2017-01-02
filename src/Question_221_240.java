@@ -188,6 +188,25 @@ public class Question_221_240 {
         }
     }
 
+    /**
+     * 238. Product of Array Except Self.
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int[] res = new int[nums.length];
+        Arrays.fill(res, 1);
+        for (int i = 1; i < res.length; i++) {
+            res[i] = res[i - 1] * nums[i - 1];
+        }
+        int right = 1;
+        for (int i = res.length - 1; i >= 0; i--) {
+            res[i] *= right;
+            right *= nums[i];
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(computeArea(-1500000001, 0, -1500000000, 1, 1500000000, 0, 1500000001, 1));
         System.out.println(isPowerOfTwo(-2147483648));

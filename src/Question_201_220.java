@@ -1,8 +1,5 @@
 import java.util.*;
 
-/**
- * Created by Edmond on 11/29/16.
- */
 public class Question_201_220 {
 
     /**
@@ -70,6 +67,16 @@ public class Question_201_220 {
             }
         }
         return true;
+    }
+
+    /**
+     * 207. Course Schedule.
+     * @param numCourses
+     * @param prerequisites
+     * @return
+     */
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+
     }
 
     /**
