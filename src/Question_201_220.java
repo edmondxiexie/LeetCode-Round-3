@@ -80,6 +80,23 @@ public class Question_201_220 {
     }
 
     /**
+     * 215. Kth Largest Element in an Array.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int n : nums) {
+            pq.offer(n);
+            if (pq.size() > k) {
+                pq.poll();
+            }
+        }
+        return pq.poll();
+    }
+
+    /**
      * 216. Combination Sum III.
      * @param k
      * @param n
@@ -106,6 +123,24 @@ public class Question_201_220 {
         }
     }
 
+
+    /**
+     * 218. The Skyline Problem.
+     * @param
+     * @return
+     */
+    public class BuildingNode {
+        // start : 1, end : 0
+        public int type;
+        public int height;
+        public int pos;
+        public BuildingNode(int t, int p, int h) {
+            type = t;
+            pos = p;
+            height = h;
+        }
+    }
+
     /**
      * 219. Contains Duplicate II.
      * @param nums
@@ -129,23 +164,6 @@ public class Question_201_220 {
             }
         }
         return false;
-    }
-
-    /**
-     * 218. The Skyline Problem.
-     * @param
-     * @return
-     */
-    public class BuildingNode {
-        // start : 1, end : 0
-        public int type;
-        public int height;
-        public int pos;
-        public BuildingNode(int t, int p, int h) {
-            type = t;
-            pos = p;
-            height = h;
-        }
     }
 
     public List<int[]> getSkyline(int[][] buildings) {
