@@ -4,6 +4,38 @@ import java.util.regex.Matcher;
 public class Question_261_280 {
 
     /**
+     * 265. Paint House II.
+     * @param costs
+     * @return
+     */
+    public int minCostII(int[][] costs) {
+        if (costs == null || costs.length == 0 || costs[0].length == 0) {
+            return 0;
+        }
+        int[][] dp = new int[costs.length][costs[0].length];
+        for (int i = 0; i < costs[0].length; i++) {
+            dp[0][i] = costs[0][i];
+        }
+        for (int i = 1; i < costs.length; i++) {
+            for (int j = 0; j < costs[0].length; j++) {
+                int min = Integer.MAX_VALUE;
+                for (int k = 0; k < costs[0].length; k++) {
+                    if (k == j) {
+                        continue;
+                    }
+                    min = Math.min(min, dp[i - 1][k]);
+                }
+                dp[i][j] = min + costs[i][j];
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < costs[0].length; i++){
+            min = Math.min(min, dp[costs.length - 1][i]);
+        }
+        return min;
+    }
+
+    /**
      * 266. Palindrome Permutation.
      * @param s
      * @return
