@@ -85,7 +85,32 @@ public class Question_201_220 {
      * @return
      */
     public int rob(int[] nums) {
-
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        if (nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        int last = nums[0];
+        int cur = Math.max(last, nums[1]);
+        for (int i = 2; i < nums.length - 1; i++) {
+            int tmp = cur;
+            cur = Math.max(last + nums[i], cur);
+            last = tmp;
+        }
+        int max = cur;
+        last = nums[1];
+        cur = Math.max(last, nums[2]);
+        for (int i = 3; i < nums.length; i++) {
+            int tmp = cur;
+            cur = Math.max(last + nums[i], cur);
+            last = tmp;
+        }
+        max = Math.max(max, cur);
+        return max;
     }
 
     /**
