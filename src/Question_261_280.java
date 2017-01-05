@@ -9,30 +9,37 @@ public class Question_261_280 {
      * @return
      */
     public int minCostII(int[][] costs) {
+        //Only the first two minimum costs count, so we keep track on min1 and min2 for each house
         if (costs == null || costs.length == 0 || costs[0].length == 0) {
             return 0;
         }
-        int[][] dp = new int[costs.length][costs[0].length];
-        for (int i = 0; i < costs[0].length; i++) {
-            dp[0][i] = costs[0][i];
-        }
-        for (int i = 1; i < costs.length; i++) {
-            for (int j = 0; j < costs[0].length; j++) {
-                int min = Integer.MAX_VALUE;
-                for (int k = 0; k < costs[0].length; k++) {
-                    if (k == j) {
-                        continue;
-                    }
-                    min = Math.min(min, dp[i - 1][k]);
+        int houses = costs.length;
+        int colors = costs[0].length;
+        int[][] dp = new int[houses][colors];
+        int min1 = -1;
+        int min2 = -1;
+        for (int i = 0; i < houses; i++) {
+            int last1 = min1;
+            int last2 = min2;
+            min1 = -1;
+            min2 = -1;
+            for (int j = 0; j < colors; j++) {
+                if (j != last1) {
+                    dp[i][j] = costs[i][j] + (last1 < 0 ? 0 : dp[i - 1][last1]);
+                } else {
+                    dp[i][j] = costs[i][j] + (last2 < 0 ? 0 : dp[i - 1][last2]);
                 }
-                dp[i][j] = min + costs[i][j];
+
+                if (min1 < 0 || dp[i][j] < dp[i][min1]) {
+                    min2 = min1;
+                    min1 = j;
+                } else if (min2 < 0 || dp[i][j] < dp[i][min2]) {
+                    min2 = j;
+                }
             }
         }
-        int min = Integer.MAX_VALUE;
-        for (int i = 0; i < costs[0].length; i++){
-            min = Math.min(min, dp[costs.length - 1][i]);
-        }
-        return min;
+
+        return dp[houses - 1][min1];
     }
 
     /**
