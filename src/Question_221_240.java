@@ -1,6 +1,3 @@
-import com.sun.tools.javac.util.ListBuffer;
-import com.sun.tools.javac.util.MandatoryWarningHandler;
-
 import java.util.*;
 
 public class Question_221_240 {
@@ -42,6 +39,46 @@ public class Question_221_240 {
         }
         return max * max;
     }
+
+    /**
+     * 222. Count Complete Tree Nodes.
+     * @param root
+     * @return
+     */
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = 1;
+        int rightDepth = 1;
+        TreeNode cur = root;
+        while (cur.left != null) {
+            cur = cur.left;
+            leftDepth++;
+        }
+        cur = root;
+        while (cur.right != null) {
+            cur = cur.right;
+            rightDepth++;
+        }
+        if (leftDepth == rightDepth) {
+            return healperCountNodes(leftDepth);
+        } else {
+            return countNodes(root.left) + countNodes(root.right) + 1;
+        }
+    }
+
+    private int healperCountNodes(int depth) {
+        int base = 1;
+        int count = 0;
+        while (depth > 0) {
+            count += base;
+            base *= 2;
+            depth--;
+        }
+        return count;
+    }
+
 
     /**
      * 223. Rectangle Area.
