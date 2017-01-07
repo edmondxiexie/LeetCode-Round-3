@@ -188,6 +188,30 @@ public class Question_261_280 {
     }
 
     /**
+     * 274. H-Index.
+     * @param citations
+     * @return
+     */
+    public int hIndex(int[] citations) {
+        int n = citations.length;
+        int count[] = new int[n + 1];
+        for (int citation : citations) {
+            if (citation > n) {
+                count[n]++;
+            } else {
+                count[citation]++;
+            }
+        }
+        for (int i = n; i > 0; i--) {
+            if (count[i] >= i) {
+                return i;
+            }
+            count[i - 1] += count[i];
+        }
+        return 0;
+    }
+
+    /**
      * 276. Paint Fence.
      * @param n
      * @param k
