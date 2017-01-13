@@ -52,4 +52,33 @@ public class Question_361_380 {
         }
         return res;
     }
+
+    /**
+     * 376. Wiggle Subsequence.
+     * @param nums
+     * @return
+     */
+    public int wiggleMaxLength(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int[] dp = new int[nums.length];
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (j == 0) {
+                    if (nums[i] != nums[j]) {
+                        dp[i] = dp[j] + 1;
+                    }
+                } else if (((nums[i] < nums[j] && nums[j] > nums[j - 1])
+                        || nums[i] > nums[j] && nums[j] < nums[j - 1])
+                        && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
 }
