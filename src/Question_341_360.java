@@ -139,6 +139,37 @@ public class Question_341_360 {
     }
 
     /**
+     * 354. Russian Doll Envelopes.
+     * @param envelopes
+     * @return
+     */
+    public int maxEnvelopes(int[][] envelopes) {
+        if (envelopes == null || envelopes.length == 0 || envelopes[0].length == 0) {
+            return 0;
+        }
+        int[] dp = new int[envelopes.length];
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        int max = 0;
+        for (int i = 0; i < envelopes.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (envelopes[i][0] > envelopes[j][0]
+                        && envelopes[i][1] > envelopes[j][1]
+                        && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
+    /**
      * 359. Logger Rate Limiter.
      */
     public class Logger {
