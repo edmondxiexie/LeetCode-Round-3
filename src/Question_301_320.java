@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Edmond on 12/23/16.
  */
@@ -98,6 +101,55 @@ public class Question_301_320 {
             }
         }
         return res.reverse().toString();
+    }
+
+    /**
+     * 311. Sparse Matrix Multiplication.
+     * @param A
+     * @param B
+     * @return
+     */
+    public int[][] multiply(int[][] A, int[][] B) {
+        if (A == null || B == null || A.length == 0 || A[0].length == 0 || B.length == 0 || B[0].length == 0) {
+            return new int[][]{};
+        }
+        int rows = A.length;
+        int cols = B[0].length;
+        int[][] res = new int[rows][cols];
+        Map<Integer, int[]> rowsInA = new HashMap<>();
+        Map<Integer, int[]> colsInB = new HashMap<>();
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                if (A[i][j] != 0) {
+                    rowsInA.put(i, A[i]);
+                    break;
+                }
+            }
+        }
+
+        for (int j = 0; j < B[0].length; j++) {
+            for (int i = 0; i < B.length; i++) {
+                if (B[i][j] != 0) {
+                    int[] tmp = new int[B.length];
+                    for (int k = 0; k < B.length; k++) {
+                        tmp[k] = B[k][j];
+                    }
+                    colsInB.put(j, tmp);
+                    break;
+                }
+            }
+        }
+
+        for (int i : rowsInA.keySet()) {
+            for (int j : colsInB.keySet()) {
+                for (int k = 0; k < A[0].length; k++) {
+                    res[i][j] += rowsInA.get(i)[k] * colsInB.get(j)[k];
+                }
+            }
+        }
+
+        return res;
     }
 
     public static void main(String[] args) {
