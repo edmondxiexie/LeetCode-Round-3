@@ -1,4 +1,7 @@
+import java.net.SocketPermission;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -152,8 +155,46 @@ public class Question_301_320 {
         return res;
     }
 
+    /**
+     * 313. Super Ugly Number.
+     * @param n
+     * @param primes
+     * @return
+     */
+    public int nthSuperUglyNumber(int n, int[] primes) {
+        if (n < 1) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        int[] bases = new int[primes.length];
+        while (list.size() < n) {
+            int[] next = new int[primes.length];
+            int min = Integer.MAX_VALUE;
+            for (int i = 0; i < primes.length; i++) {
+                next[i] = list.get(bases[i]) * primes[i];
+                min = Math.min(min, next[i]);
+            }
+            for (int i = 0; i < next.length; i++) {
+                if (next[i] == min) {
+                        if (min != list.get(list.size() - 1)) {
+                            list.add(min);
+                        }
+                    bases[i]++;
+                    break;
+                }
+            }
+        }
+        return list.get(list.size() - 1);
+    }
+
     public static void main(String[] args) {
         Question_301_320 c = new Question_301_320();
         System.out.println(c.isAdditiveNumber("198019823962"));
+        int[] nums = {2, 7, 13, 19};
+        System.out.println(c.nthSuperUglyNumber(12, nums));
     }
 }
