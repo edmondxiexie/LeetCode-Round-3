@@ -272,6 +272,40 @@ public class Question_301_320 {
         return (int)Math.sqrt(n);
     }
 
+    /**
+     * 320. Generalized Abbreviation.
+     * @param word
+     * @return
+     */
+    public List<String> generateAbbreviations(String word) {
+        List<String> result = new ArrayList<>();
+        DFSGenerateAbbr(result, "", 0, word);
+        return result;
+    }
+
+    private void DFSGenerateAbbr(List<String> result, String cur, int start, String word) {
+        result.add(cur + word.substring(start));
+        if (start == word.length())
+            return;
+
+        // 定义新的起始位置
+        int i = 0;
+
+        // 除了最开始，起始位置都要与之前结尾位置隔一个
+        if (start > 0) {
+            i = start + 1;
+        }
+
+        for (; i < word.length(); i++) {
+            String prefix = cur + word.substring(start, i);
+            // 以ith字符开头，依次替换j个字母成数字。
+            for (int j = 1; j <= word.length() - i; j++) {
+                DFSGenerateAbbr(result,  prefix + j, i + j, word);
+                //i+j,表示从上一个start开始替换j个字母后开始的字母位置。
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Question_301_320 c = new Question_301_320();
         System.out.println(c.isAdditiveNumber("198019823962"));
