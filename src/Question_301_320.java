@@ -238,6 +238,31 @@ public class Question_301_320 {
         return result;
     }
 
+    /**
+     * 318. Maximum Product of Word Lengths.
+     * @param words
+     * @return
+     */
+    public int maxProduct(String[] words) {
+        // elements[i] |= 1 << (words[i][j] – ‘a’);   //把words[i][j] 在26字母中的出现的次序变为1
+        int[] letterAppeared = new int[words.length];
+        for (int i = 0; i < words.length; i++) {
+            for (int j = 0; j < words[i].length(); j++) {
+                letterAppeared[i] |= 1 << (words[i].charAt(j) - 'a');
+            }
+        }
+
+        int max = 0;
+        for (int i = 0; i < words.length; i++) {
+            for (int j = i + 1; j < words.length; j++) {
+                if ((letterAppeared[i] & letterAppeared[j]) == 0) {
+                    max = Math.max(max, words[i].length() * words[j].length());
+                }
+            }
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
         Question_301_320 c = new Question_301_320();
         System.out.println(c.isAdditiveNumber("198019823962"));
