@@ -230,6 +230,50 @@ public class Question_341_360 {
         }
     }
 
+    /**
+     * 360. Sort Transformed Array.
+     * @param nums
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
+    public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        int[] result = new int[nums.length];
+        int left = 0;
+        int right = nums.length - 1;
+        int index = (a >= 0) ? nums.length - 1 : 0;
+        while (left <= right) {
+            int leftVal = transform(nums[left], a, b, c);
+            int rightVal = transform(nums[right], a, b, c);
+            if (a >= 0) {
+                if (leftVal > rightVal) {
+                    result[index] = leftVal;
+                    left++;
+                } else {
+                    result[index] = rightVal;
+                    right--;
+                }
+                index--;
+            } else {
+                if (leftVal < rightVal) {
+                    result[index] = leftVal;
+                    left++;
+                } else {
+                    result[index] = rightVal;
+                    right--;
+                }
+                index++;
+            }
+        }
+        return result;
+    }
+
+    private int transform(int x, int a, int b, int c) {
+        return a * x * x + b * x + c;
+    }
+
+
     public static void main(String[] args) {
         Question_341_360 m = new Question_341_360();
         m.numberOfPatterns(1, 4);
