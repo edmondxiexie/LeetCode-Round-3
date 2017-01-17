@@ -170,6 +170,38 @@ public class Question_341_360 {
     }
 
     /**
+     * 356. Line Reflection.
+     * @param points
+     * @return
+     */
+    public boolean isReflected(int[][] points) {
+        if (points.length <= 1) {
+            return true;
+        }
+        int min = points[0][0];
+        int max = points[0][0];
+        for (int[] point : points) {
+            min = Math.min(min, point[0]);
+            max = Math.max(max, point[0]);
+        }
+        int sum = min + max;
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int[] point : points) {
+            if (!map.containsKey(point[0])) {
+                map.put(point[0], new HashSet<>());
+            }
+            map.get(point[0]).add(point[1]);
+        }
+        for (int[] point : points) {
+            int anotherX = sum - point[0];
+            if (!map.containsKey(anotherX) || !map.get(anotherX).contains(point[1])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 359. Logger Rate Limiter.
      */
     public class Logger {
