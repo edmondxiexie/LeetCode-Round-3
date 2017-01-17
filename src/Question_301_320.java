@@ -263,6 +263,15 @@ public class Question_301_320 {
         return max;
     }
 
+    /**
+     * 319. Bulb Switcher.
+     * @param n
+     * @return
+     */
+    public int bulbSwitch(int n) {
+        return (int)Math.sqrt(n);
+    }
+
     public static void main(String[] args) {
         Question_301_320 c = new Question_301_320();
         System.out.println(c.isAdditiveNumber("198019823962"));
