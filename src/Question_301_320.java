@@ -1,8 +1,5 @@
 import java.net.SocketPermission;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Edmond on 12/23/16.
@@ -189,6 +186,56 @@ public class Question_301_320 {
             }
         }
         return list.get(list.size() - 1);
+    }
+
+    /**
+     * 314. Binary Tree Vertical Order Traversal.
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+         class TreeColNode {
+            public TreeNode treeNode;
+            public int col;
+
+            public TreeColNode(TreeNode treeNode, int col) {
+                this.treeNode = treeNode;
+                this.col = col;
+            }
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<TreeColNode> queue = new LinkedList<TreeColNode>();
+        queue.offer(new TreeColNode(root, 0));
+        int min = 0;
+        int max = 0;
+        while (!queue.isEmpty()) {
+            TreeColNode curNode = queue.poll();
+            int curCol = curNode.col;
+            if (!map.containsKey(curCol)) {
+                map.put(curCol, new ArrayList<>());
+            }
+            map.get(curCol).add(curNode.treeNode.val);
+
+            if (curNode.treeNode.left != null) {
+                queue.offer(new TreeColNode(curNode.treeNode.left, curCol - 1));
+                min = Math.min(min, curCol - 1);
+            }
+            if (curNode.treeNode.right != null) {
+                queue.offer(new TreeColNode(curNode.treeNode.right, curCol + 1));
+                max = Math.max(max, curCol + 1);
+            }
+        }
+
+        for (int i = min; i <= max; i++) {
+            result.add(map.get(i));
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
