@@ -31,6 +31,50 @@ public class Question_341_360 {
     }
 
     /**
+     * 347. Top K Frequent Elements.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> numToFreq = new HashMap<>();
+        for (int num : nums) {
+            if (numToFreq.containsKey(num)) {
+                numToFreq.put(num, numToFreq.get(num) + 1);
+            } else {
+                numToFreq.put(num, 1);
+            }
+        }
+        Map<Integer, List<Integer>> freqToNum = new HashMap<>();
+        for (int num : numToFreq.keySet()) {
+            int freq = numToFreq.get(num);
+            if (freqToNum.containsKey(freq)) {
+                freqToNum.get(freq).add(num);
+            } else {
+                List<Integer> tmp = new ArrayList<>();
+                tmp.add(num);
+                freqToNum.put(freq, tmp);
+            }
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return -(o1 - o2);
+            }
+        });
+        for (int freq : freqToNum.keySet()) {
+            pq.offer(freq);
+        }
+        List<Integer> result = new ArrayList<>();
+        while (k > 0) {
+            List<Integer> list = freqToNum.get(pq.poll());
+            result.addAll(list);
+            k -= list.size();
+        }
+        return result;
+    }
+
+    /**
      * 349. Intersection of Two Arrays.
      * @param nums1
      * @param nums2
