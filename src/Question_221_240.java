@@ -1,3 +1,5 @@
+import com.sun.source.tree.Tree;
+
 import java.util.*;
 
 public class Question_221_240 {
@@ -309,6 +311,67 @@ public class Question_221_240 {
         // Return whether the queue is empty.
         public boolean empty() {
             return mainStack.size() == 0;
+        }
+    }
+
+    /**
+     * 236. Lowest Common Ancestor of a Binary Tree.
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        HelperNode res = helperLowestCommonAncestor(root, p, q);
+        if (res.foundP && res.foundQ) {
+            return res.node;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * return HelperNode with common ancestor as node;
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    private HelperNode helperLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return new HelperNode(false, false, null);
+        }
+
+        HelperNode leftRes = helperLowestCommonAncestor(root.left, p, q);
+        HelperNode rightRes = helperLowestCommonAncestor(root.right, p, q);
+
+        boolean foundP = leftRes.foundP || rightRes.foundP || root == p;
+        boolean foundQ = leftRes.foundQ || rightRes.foundQ || root == q;
+
+        if (root == p || root == q) {
+            return new HelperNode(foundP, foundQ, root);
+        }
+        if (leftRes.node != null && rightRes.node != null) {
+            return new HelperNode(foundP, foundQ, root);
+        }
+        if (leftRes.node != null) {
+            return new HelperNode(foundP, foundQ, leftRes.node);
+        }
+        if (rightRes.node != null) {
+            return new HelperNode(foundP, foundQ, rightRes.node);
+        }
+        return new HelperNode(foundP, foundQ, null);
+    }
+
+
+    public class HelperNode {
+        public boolean foundP;
+        public boolean foundQ;
+        public TreeNode node;
+        public HelperNode(boolean p, boolean q, TreeNode n) {
+            foundP = p;
+            foundQ = q;
+            node = n;
         }
     }
 
