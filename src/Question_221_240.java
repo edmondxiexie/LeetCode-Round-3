@@ -315,6 +315,65 @@ public class Question_221_240 {
     }
 
     /**
+     * 235. Lowest Common Ancestor of a Binary Search Tree.
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode BSTLowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        TreeNode left = null;
+        TreeNode right = null;
+        if (p.val > q.val) {
+            TreeNode tmp = p;
+            p = q;
+            q = tmp;
+        }
+        while (root != null) {
+            if (root == p) {
+                left = p;
+                right = BSTSearch(root.right, q);
+                break;
+            }
+            if (root == q) {
+                right = q;
+                left = BSTSearch(root.left, p);
+                break;
+            }
+            if (root.val > p.val && root.val > q.val) {
+                root = root.left;
+            } else if (root.val < p.val && root.val < q.val) {
+                root = root.right;
+            } else {
+                left = BSTSearch(root.left, p);
+                right = BSTSearch(root.right, q);
+                break;
+            }
+        }
+        if (left != null && right != null) {
+            return root;
+        } else {
+            return null;
+        }
+    }
+
+    private TreeNode BSTSearch(TreeNode root, TreeNode n) {
+        if (root == null) {
+            return null;
+        }
+        while (root != null) {
+            if (root == n) {
+                return root;
+            } else if (n.val < root.val) {
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+        return n;
+    }
+
+    /**
      * 236. Lowest Common Ancestor of a Binary Tree.
      * @param root
      * @param p
