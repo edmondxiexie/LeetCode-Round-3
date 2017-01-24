@@ -302,6 +302,47 @@ public class Question_021_040 {
     }
 
     /**
+     * 33. Search in Rotated Sorted Array.33. Search in Rotated Sorted Array
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int start = 0;
+        int end = nums.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[start] < nums[mid]) {
+                if (nums[start] <= target && target < nums[mid]) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[end]) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+        }
+        if (nums[start] == target) {
+            return start;
+        } else if (nums[end] == target) {
+            return end;
+        } else {
+            return -1;
+        }
+    }
+
+
+    /**
      * 39. Combination Sum.
      * @param candidates
      * @param target
