@@ -189,6 +189,44 @@ public class Question_021_040 {
     }
 
     /**
+     * 29. Divide Two Integers.
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public int divide(int dividend, int divisor) {
+        if (divisor == 1) {
+            return dividend;
+        }
+        if ((dividend == Integer.MIN_VALUE && divisor == -1) || divisor == 0) {
+            return Integer.MAX_VALUE;
+        }
+        int sign = 1;
+        if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) {
+            sign = -1;
+        }
+        long first = Math.abs((long)dividend);
+        long second = Math.abs((long)divisor);
+        int power = 31;
+        long secondPower = second << power;
+        long result = 0;
+
+        while (first >= second) {
+            while (secondPower > first) {
+                secondPower >>= 1;
+                power--;
+            }
+            first -= secondPower;
+            result += (1L << power);
+        }
+        if (sign > 0) {
+            return (int)result;
+        } else {
+            return (int)(0 - result);
+        }
+    }
+
+    /**
      * 30. Substring with Concatenation of All Words.
      * @param s
      * @param words
