@@ -66,6 +66,41 @@ public class Question_041_060 {
     }
 
     /**
+     * 44. Wildcard Matching.
+     * @param s
+     * @param p
+     * @return
+     */
+    public boolean isMatch(String s, String p) {
+        int i = 0;
+        int j = 0;
+        int star = -1;
+        int lastI = -1;
+
+        while (i < s.length()) {
+            if (j < p.length()
+                    && (p.charAt(j) == '?' || s.charAt(i) == p.charAt(j))) {
+                i++;
+                j++;
+            } else if (j < p.length() && p.charAt(j) == '*') {
+                star = j;
+                lastI = i;
+                j++;
+            } else if (star != -1) {
+                j = star + 1;
+                i = lastI + 1;
+                lastI++;
+            } else {
+                return false;
+            }
+        }
+        while (j < p.length() && p.charAt(j) == '*') {
+            j++;
+        }
+        return j == p.length();
+    }
+
+    /**
      * 46. Permutations.
      * @param nums
      * @return
