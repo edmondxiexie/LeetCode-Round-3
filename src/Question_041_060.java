@@ -101,6 +101,32 @@ public class Question_041_060 {
     }
 
     /**
+     * 45. Jump Game II.
+     * @param nums
+     * @return
+     */
+    public int jump(int[] nums) {
+        if (nums == null || nums.length == 1) {
+            return 0;
+        }
+        int start = 0;
+        int end = 0;
+        int jumps = 0;
+        while (end < nums.length - 1) {
+            jumps++;
+            int farthest = end;
+            for (int i = start; i <= end; i++) {
+                if (nums[i] + i > farthest) {
+                    farthest = nums[i] + i;
+                }
+            }
+            start = end + 1;
+            end = farthest;
+        }
+        return jumps;
+    }
+
+    /**
      * 46. Permutations.
      * @param nums
      * @return
@@ -167,60 +193,63 @@ public class Question_041_060 {
     }
 
     public static void main(String[] args) {
-        Map<Character, Integer> map = new HashMap<>();
-        String s = "she sells seashells on the seashore";
-        for (char e : s.toCharArray()) {
-            if (map.containsKey(e)) {
-                map.put(e, map.get(e) + 1);
-            } else {
-                map.put(e, 1);
-            }
-        }
-        int count = 0;
-        for (char e : map.keySet()) {
-            count += map.get(e);
-            System.out.println(e + "  " + map.get(e));
-        }
-        System.out.println("count: " + count);
-        System.out.println(s.length());
-
-        Map<Character, String> map1 = new HashMap<>();
-        Map<Character, String> map2 = new HashMap<>();
-        map1.put(' ', "1010");
-        map1.put('a', "0000");
-        map1.put('r', "0111");
-        map1.put('s', "1000");
-        map1.put('t', "1001");
-        map1.put('e', "0001");
-        map1.put('h', "0010");
-        map1.put('l', "0011");
-        map1.put('n', "0100");
-        map1.put('o', "0101");
-
-        map2.put('a', "11100");
-        map2.put('e', "010");
-        map2.put('h', "10");
-        map2.put('l', "0111");
-        map2.put('n', "11111");
-        map2.put('o', "110");
-        map2.put('r', "11110");
-        map2.put('s', "00");
-        map2.put('t', "11101");
-        map2.put(' ', "0110");
-
-        String s1 = "";
-        for (char e : s.toCharArray()) {
-            s1 += map1.get(e);
-        }
-
-        String s2 = "";
-        for (char e : s.toCharArray()) {
-            s2 += map2.get(e);
-        }
-
-        System.out.println(s1);
-        System.out.println(s2);
-        System.out.println(s1.length());
-        System.out.println(s2.length());
+//        Map<Character, Integer> map = new HashMap<>();
+//        String s = "she sells seashells on the seashore";
+//        for (char e : s.toCharArray()) {
+//            if (map.containsKey(e)) {
+//                map.put(e, map.get(e) + 1);
+//            } else {
+//                map.put(e, 1);
+//            }
+//        }
+//        int count = 0;
+//        for (char e : map.keySet()) {
+//            count += map.get(e);
+//            System.out.println(e + "  " + map.get(e));
+//        }
+//        System.out.println("count: " + count);
+//        System.out.println(s.length());
+//
+//        Map<Character, String> map1 = new HashMap<>();
+//        Map<Character, String> map2 = new HashMap<>();
+//        map1.put(' ', "1010");
+//        map1.put('a', "0000");
+//        map1.put('r', "0111");
+//        map1.put('s', "1000");
+//        map1.put('t', "1001");
+//        map1.put('e', "0001");
+//        map1.put('h', "0010");
+//        map1.put('l', "0011");
+//        map1.put('n', "0100");
+//        map1.put('o', "0101");
+//
+//        map2.put('a', "11100");
+//        map2.put('e', "010");
+//        map2.put('h', "10");
+//        map2.put('l', "0111");
+//        map2.put('n', "11111");
+//        map2.put('o', "110");
+//        map2.put('r', "11110");
+//        map2.put('s', "00");
+//        map2.put('t', "11101");
+//        map2.put(' ', "0110");
+//
+//        String s1 = "";
+//        for (char e : s.toCharArray()) {
+//            s1 += map1.get(e);
+//        }
+//
+//        String s2 = "";
+//        for (char e : s.toCharArray()) {
+//            s2 += map2.get(e);
+//        }
+//
+//        System.out.println(s1);
+//        System.out.println(s2);
+//        System.out.println(s1.length());
+//        System.out.println(s2.length());
+        Question_041_060 q = new Question_041_060();
+        int[] nums = {2,3,1,1,4};
+        System.out.println(q.jump(nums));
     }
 }
