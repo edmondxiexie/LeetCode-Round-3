@@ -192,6 +192,50 @@ public class Question_041_060 {
         }
     }
 
+    /**
+     * 51. N-Queens.
+     * @param n
+     * @return
+     */
+    public List<List<String>> solveNQueens(int n) {
+        int[] lines = new int[n];
+        List<List<String>> result = new ArrayList<>();
+        playNQueen(result, 0, n, lines);
+        return result;
+    }
+
+    private void playNQueen(List<List<String>> result, int row, int n, int[] lines) {
+        if (row == n) {
+            List<String> list = new ArrayList<>();
+            char[] placement = new char[n];
+            Arrays.fill(placement, '.');
+            for (int i = 0; i < n; i++) {
+                int col = lines[i];
+                placement[col] = 'Q';
+                list.add(new String(placement));
+                placement[col] = '.';
+            }
+            result.add(list);
+            return;
+        }
+        for (int col = 0; col < n; col++) {
+            lines[row] = col;
+            if (checkNQueens(row, lines)) {
+                playNQueen(result, row + 1, n, lines);
+            }
+        }
+    }
+
+    private boolean checkNQueens(int row, int[] lines) {
+        for (int i = 0; i < row; i++) {
+            int diff = Math.abs(lines[row] - lines[i]);
+            if (diff == 0 || diff == (row - i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 //        Map<Character, Integer> map = new HashMap<>();
 //        String s = "she sells seashells on the seashore";
