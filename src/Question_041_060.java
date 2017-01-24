@@ -236,6 +236,33 @@ public class Question_041_060 {
         return true;
     }
 
+    /**
+     * 52. N-Queens II.
+     * @param n
+     * @return
+     */
+    public int totalNQueens(int n) {
+        int[] lines = new int[n];
+        count = 0;
+        playTotalNQueen(0, n, lines);
+        return count;
+    }
+
+    private int count;
+
+    private void playTotalNQueen(int row, int n, int[] lines) {
+        if (row == n) {
+            count++;
+            return;
+        }
+        for (int col = 0; col < n; col++) {
+            lines[row] = col;
+            if (checkNQueens(row, lines)) {
+                playTotalNQueen(row + 1, n, lines);
+            }
+        }
+    }
+
     public static void main(String[] args) {
 //        Map<Character, Integer> map = new HashMap<>();
 //        String s = "she sells seashells on the seashore";
