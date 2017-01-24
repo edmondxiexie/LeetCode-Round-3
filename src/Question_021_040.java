@@ -189,6 +189,50 @@ public class Question_021_040 {
     }
 
     /**
+     * 30. Substring with Concatenation of All Words.
+     * @param s
+     * @param words
+     * @return
+     */
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<>();
+        Map<String, Integer> toFind = new HashMap<>();
+        Map<String, Integer> found = new HashMap<>();
+        int size = words.length;
+        int len = words[0].length();
+        for (String word : words) {
+            if (!toFind.containsKey(word)) {
+                toFind.put(word, 1);
+            } else {
+                toFind.put(word, toFind.get(word) + 1);
+            }
+        }
+        for (int i = 0; i <= s.length() - size * len; i++) {
+            found.clear();
+            int j;
+            for (j = 0; j < size; j++) {
+                int start = i + j * len;
+                String sub = s.substring(start, start + len);
+                if (!toFind.containsKey(sub)) {
+                    break;
+                }
+                if (!found.containsKey(sub)) {
+                    found.put(sub, 1);
+                } else {
+                    found.put(sub, found.get(sub) + 1);
+                }
+                if (found.get(sub) > toFind.get(sub)) {
+                    break;
+                }
+            }
+            if (j == size) {
+                res.add(i);
+            }
+        }
+        return res;
+     }
+
+    /**
      * 32. Longest Valid Parentheses.
      * @param s
      * @return
