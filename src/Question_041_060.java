@@ -263,6 +263,58 @@ public class Question_041_060 {
         }
     }
 
+    /**
+     * 56. Merge Intervals.
+     * @param intervals
+     * @return
+     */
+    public List<Interval> merge(List<Interval> intervals) {
+        List<InterNode> list = new ArrayList<>();
+        for (Interval i : intervals) {
+            list.add(new InterNode(i.start, 0));
+            list.add(new InterNode(i.end, 1));
+        }
+        Collections.sort(list, new Comparator<InterNode>() {
+            @Override
+            public int compare(InterNode o1, InterNode o2) {
+                if (o1.val != o2.val) {
+                    return o1.val - o2.val;
+                } else {
+                    return o1.type - o2.type;
+                }
+            }
+        });
+        List<Interval> result = new ArrayList<>();
+        Stack<InterNode> stack = new Stack<>();
+        for (InterNode cur : list) {
+            if (stack.isEmpty() || cur.type == 0) {
+                stack.push(cur);
+            } else {
+                InterNode last = stack.pop();
+                if (stack.isEmpty()) {
+                    result.add(new Interval(last.val, cur.val));
+                }
+            }
+        }
+        return result;
+    }
+
+    private class Interval {
+        public int start;
+        public int end;
+        public Interval() { start = 0; end = 0; }
+        public Interval(int s, int e) { start = s; end = e; }
+    }
+
+    private class InterNode {
+        public int val;
+        public int type;
+        public InterNode(int n, int t) {
+            val = n;
+            type = t;
+        }
+    }
+
     public static void main(String[] args) {
 //        Map<Character, Integer> map = new HashMap<>();
 //        String s = "she sells seashells on the seashore";
