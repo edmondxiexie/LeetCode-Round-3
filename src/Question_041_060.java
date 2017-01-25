@@ -315,6 +315,44 @@ public class Question_041_060 {
         }
     }
 
+    /**
+     * 57. Insert Interval.
+     * @param intervals
+     * @param newInterval
+     * @return
+     */
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+        intervals.add(newInterval);
+        List<InterNode> list = new ArrayList<>();
+        for (Interval i : intervals) {
+            list.add(new InterNode(i.start, 0));
+            list.add(new InterNode(i.end, 1));
+        }
+        Collections.sort(list, new Comparator<InterNode>() {
+            @Override
+            public int compare(InterNode o1, InterNode o2) {
+                if (o1.val != o2.val) {
+                    return o1.val - o2.val;
+                } else {
+                    return o1.type - o2.type;
+                }
+            }
+        });
+        List<Interval> result = new ArrayList<>();
+        Stack<InterNode> stack = new Stack<>();
+        for (InterNode cur : list) {
+            if (stack.isEmpty() || cur.type == 0) {
+                stack.push(cur);
+            } else {
+                InterNode last = stack.pop();
+                if (stack.isEmpty()) {
+                    result.add(new Interval(last.val, cur.val));
+                }
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
 //        Map<Character, Integer> map = new HashMap<>();
 //        String s = "she sells seashells on the seashore";
