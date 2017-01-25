@@ -52,6 +52,47 @@ public class Question_401_420 {
     }
 
     /**
+     * 402. Remove K Digits.
+     * @param num
+     * @param k
+     * @return
+     */
+    public String removeKdigits(String num, int k) {
+        int count = 0;
+        Stack<Integer> stack = new Stack<>();
+        int i = 0;
+        while (i < num.length()) {
+            char c = num.charAt(i);
+            if (count < k && !stack.isEmpty() && stack.peek() > (c - '0')) {
+                stack.pop();
+                count++;
+            } else {
+                stack.push(c - '0');
+                i++;
+            }
+
+        }
+        while (count < k) {
+            stack.pop();
+            count++;
+        }
+        String res = "";
+        while (!stack.isEmpty()) {
+            res = stack.pop() + res;
+        }
+        int zero = 0;
+        while (zero < res.length() && res.charAt(zero) == '0') {
+            zero++;
+        }
+        res = res.substring(zero);
+        if (res.length() == 0) {
+            return "0";
+        } else {
+            return res;
+        }
+    }
+
+    /**
      * 404. Sum of Left Leaves.
      * @param root
      * @return
@@ -386,11 +427,12 @@ public class Question_401_420 {
     }
 
     public static void main(String[] args) {
-//        Question_401_420 n = new Question_401_420();
+        Question_401_420 n = new Question_401_420();
 //        n.readBinaryWatch(2);
 //        validWordAbbreviation("internationalization", "i12iz4n");
-        int[] nums = {1,2,3,4};
-        System.out.println(numberOfArithmeticSlices(nums));
+//        int[] nums = {1,2,3,4};
+//        System.out.println(numberOfArithmeticSlices(nums));
+        System.out.println(n.removeKdigits("1432219", 3));
     }
 
 
