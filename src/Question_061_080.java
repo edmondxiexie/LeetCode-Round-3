@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Question_061_080 {
 
@@ -39,6 +36,63 @@ public class Question_061_080 {
         if (result.length() == 0)
             result = "/";
         return result;
+    }
+
+    /**
+     * 76. Minimum Window Substring.
+     * @param s
+     * @param t
+     * @return
+     */
+    public String minWindow(String s, String t) {
+        int[] chars = new int[128];
+        Map<Character, Integer> target = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            if (target.containsKey(c)) {
+                target.put(c, target.get(c) + 1);
+            } else {
+                target.put(c, 1);
+            }
+        }
+        int minLeft = 0;
+        int minRight = 0;
+        int minLen = Integer.MAX_VALUE;
+        int toFind = t.length();
+        Map<Character, Integer> found = new HashMap<>();
+        int left = 0;
+        int right = 0;
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            if (!target.containsKey(c)) {
+                right++;
+                continue;
+            } else {
+                if (found.get(c) == target.get(c)) {
+                    while (left < right && !target.containsKey(s.charAt(left))) {
+                        left++;
+                    }
+                    if (s.charAt(left) == c) {
+                        left++;
+                    }
+                    right++;
+                } else {
+                    if (found.containsKey(c)) {
+                        found.put(c, 1);
+                    } else {
+                        found.put(c, found.get(c) + 1);
+                    }
+                    toFind--;
+                    if (toFind == 0 && (right - left + 1) > minLen) {
+                        minLen = right - left + 1;
+                        minLeft = left;
+                        minRight = right;
+                    }
+                    right++;
+                }
+            }
+        }
+
+        return s.substring(minLeft, minRight + 1);
     }
 
     /**

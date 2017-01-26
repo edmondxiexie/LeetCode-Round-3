@@ -30,4 +30,36 @@ public class Question_081_100 {
         }
         return max;
     }
+
+    /**
+     * 86. Partition List.
+     * @param head
+     * @param x
+     * @return
+     */
+    public ListNode partition(ListNode head, int x) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode large = dummy;
+        ListNode small = dummy;
+        ListNode cur = dummy.next;
+        while (cur != null) {
+            if (cur.val >= x) {
+                large = cur;
+                cur = cur.next;
+            } else {
+                if (large == dummy) {
+                    small = cur;
+                    cur = cur.next;
+                } else {
+                    large.next = cur.next;
+                    cur.next = small.next;
+                    small.next = cur;
+                    small = small.next;
+                    cur = cur.next;
+                }
+            }
+        }
+        return dummy.next;
+    }
 }
