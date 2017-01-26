@@ -453,8 +453,38 @@ public class Question_221_240 {
         return res;
     }
 
+    /**
+     * 239. Sliding Window Maximum.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return -(o1 - o2);
+            }
+        });
+        if (nums == null || nums.length == 0 || k == 0) {
+            return new int[0];
+        }
+        int[] res = new int[nums.length - (k - 1)];
+        int left = 0;
+        for (int i = 0; i < k - 1; i++) {
+            queue.offer(nums[i]);
+        }
+        while (left < nums.length - (k - 1)) {
+            queue.add(nums[left + (k - 1)]);
+            res[left] = queue.peek();
+            queue.remove(nums[left]);
+            left++;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(computeArea(-1500000001, 0, -1500000000, 1, 1500000000, 0, 1500000001, 1));
-        System.out.println(isPowerOfTwo(-2147483648));
+//        System.out.println(isPowerOfTwo(-2147483648));
     }
 }

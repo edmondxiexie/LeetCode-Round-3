@@ -168,5 +168,10 @@ public class Question_061_080 {
     public static void main(String[] args) {
         Question_061_080 q = new Question_061_080();
         System.out.println(q.minWindow("a", "aa"));
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(1);
+        pq.add(2);
+//        pq.remove(2);
+        System.out.println(pq.toString());
     }
 }
