@@ -73,7 +73,9 @@ public class Question_081_100 {
         if (s1.equals(s2)) {
             return true;
         }
-
+        if(s1.length()!=s2.length()) {
+            return false;
+        }
         int[] letters = new int[26];
         for (int i = 0; i < s1.length(); i++) {
             letters[s1.charAt(i) - 'a']++;
