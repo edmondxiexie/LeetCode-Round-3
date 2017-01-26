@@ -144,6 +144,37 @@ public class Question_081_100 {
         return null;
     }
 
+    /**
+     * 97. Interleaving String.
+     * @param s1
+     * @param s2
+     * @param s3
+     * @return
+     */
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        int rows = s1.length() + 1;
+        int cols = s2.length() + 1;
+        boolean[][] dp = new boolean[rows][cols];
+        dp[0][0] = true;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (!dp[i][j]) {
+                    continue;
+                }
+                if (i + 1 < rows && s1.charAt(i) == s3.charAt(i + j)) {
+                    dp[i + 1][j] = true;
+                }
+                if (j + 1 < cols && s2.charAt(j) == s3.charAt(i + j)) {
+                    dp[i][j + 1] = true;
+                }
+            }
+        }
+        return dp[rows - 1][cols - 1];
+    }
+
     public static void main(String[] args) {
         Question_081_100 q = new Question_081_100();
         System.out.println(q.grayCode(1));
