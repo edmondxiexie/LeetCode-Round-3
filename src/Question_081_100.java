@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 public class Question_081_100 {
     /**
@@ -98,5 +98,54 @@ public class Question_081_100 {
             }
         }
         return false;
+    }
+
+    /**
+     * 89. Gray Code.
+     * @param n
+     * @return
+     */
+    public List<Integer> grayCode(int n) {
+        List<Integer> result = new ArrayList<>();
+        result.add(0);
+        if (n == 0) {
+            return result;
+        }
+        int max = (int)Math.pow(2, n) - 1;
+        Set<Integer> set = new HashSet<>();
+        set.add(0);
+        return DFSGrayCode(result, 0, set, max, n);
+    }
+
+    private List<Integer> DFSGrayCode(List<Integer> result, int cur, Set<Integer> set, int max, int bits) {
+        if (result.size() == max + 1) {
+            return result;
+        }
+        for (int i = 0; i < bits; i++) {
+            int mask = 1 << i;
+            int bit = cur & mask;
+            int next;
+            if (bit == 0) {
+                next = cur | mask;
+            } else {
+                next = cur & (~mask);
+            }
+            if (!set.contains(next)) {
+                set.add(next);
+                result.add(next);
+                List<Integer> tmp = DFSGrayCode(result, next, set, max, bits);
+                if (tmp != null) {
+                    return result;
+                }
+                set.remove(next);
+                result.remove(result.size() - 1);
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        Question_081_100 q = new Question_081_100();
+        System.out.println(q.grayCode(1));
     }
 }
