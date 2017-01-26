@@ -45,7 +45,6 @@ public class Question_061_080 {
      * @return
      */
     public String minWindow(String s, String t) {
-        int[] chars = new int[128];
         Map<Character, Integer> target = new HashMap<>();
         for (char c : t.toCharArray()) {
             if (target.containsKey(c)) {
@@ -54,45 +53,48 @@ public class Question_061_080 {
                 target.put(c, 1);
             }
         }
-        int minLeft = 0;
-        int minRight = 0;
+        String res = "";
+        int minLeft = -1;
+        int minRight = -1;
         int minLen = Integer.MAX_VALUE;
-        int toFind = t.length();
         Map<Character, Integer> found = new HashMap<>();
-        int left = 0;
+        int left = -1;
         int right = 0;
         while (right < s.length()) {
             char c = s.charAt(right);
-            if (!target.containsKey(c)) {
-                right++;
-                continue;
-            } else {
-                if (found.get(c) == target.get(c)) {
-                    while (left < right && !target.containsKey(s.charAt(left))) {
-                        left++;
-                    }
-                    if (s.charAt(left) == c) {
-                        left++;
-                    }
-                    right++;
+            if (target.containsKey(c)) {
+                if (left == -1) {
+                    left = right;
+                }
+                if (!found.containsKey(c)) {
+                    found.put(c, 1);
                 } else {
-                    if (found.containsKey(c)) {
-                        found.put(c, 1);
-                    } else {
-                        found.put(c, found.get(c) + 1);
-                    }
-                    toFind--;
-                    if (toFind == 0 && (right - left + 1) > minLen) {
+                    found.put(c, found.get(c) + 1);
+                }
+                while (checkWindow(target, found)) {
+                    if (right - left + 1 < minLen) {
                         minLen = right - left + 1;
-                        minLeft = left;
-                        minRight = right;
+                        res = s.substring(left, right + 1);
+
                     }
-                    right++;
+                    if (found.containsKey(s.charAt(left))) {
+                        found.put(s.charAt(left), found.get(s.charAt(left)) - 1);
+                    }
+                    left++;
                 }
             }
+            right++;
         }
+        return res;
+    }
 
-        return s.substring(minLeft, minRight + 1);
+    private boolean checkWindow(Map<Character, Integer> target, Map<Character, Integer> found) {
+        for (char ch : target.keySet()) {
+            if (!found.containsKey(ch) || found.get(ch) < target.get(ch)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -161,5 +163,10 @@ public class Question_061_080 {
             DFSSubsets(nums, result, list, i + 1);
             list.remove(list.size() - 1);
         }
+    }
+
+    public static void main(String[] args) {
+        Question_061_080 q = new Question_061_080();
+        System.out.println(q.minWindow("a", "aa"));
     }
 }
