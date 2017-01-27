@@ -1,3 +1,5 @@
+import com.sun.source.tree.Tree;
+
 import java.util.*;
 
 public class Question_081_100 {
@@ -175,8 +177,42 @@ public class Question_081_100 {
         return dp[rows - 1][cols - 1];
     }
 
+    /**
+     * 99. Recover Binary Search Tree.
+     * @param root
+     */
+    public void recoverTree(TreeNode root) {
+        traverse(root);
+        int tmp = first.val;
+        first.val = second.val;
+        second.val = tmp;
+    }
+
+    TreeNode first = null;
+    TreeNode second = null;
+    TreeNode last = null;
+
+    private void traverse(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        traverse(root.left);
+        if (last != null && first == null && root.val < last.val) {
+            first = last;
+        }
+        if (last != null && first != null && root.val < last.val) {
+            second = root;
+        }
+        last = root;
+        traverse(root.right);
+    }
+
     public static void main(String[] args) {
         Question_081_100 q = new Question_081_100();
-        System.out.println(q.grayCode(1));
+//        System.out.println(q.grayCode(1));
+        TreeNode a = new TreeNode(0);
+        TreeNode b = new TreeNode(1);
+        a.left = b;
+        q.recoverTree(a);
     }
 }
