@@ -4,6 +4,29 @@ import java.util.*;
  * Created by Edmond on 11/30/16.
  */
 public class Question_120_140 {
+
+    /**
+     * 124. Binary Tree Maximum Path Sum.
+     * @param root
+     * @return
+     */
+    public int maxPathSum(TreeNode root) {
+        HelperMaxPathSum(root);
+        return maxPathSum;
+    }
+
+    private int HelperMaxPathSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(HelperMaxPathSum(root.left), 0);
+        int right = Math.max(HelperMaxPathSum(root.right), 0);
+        maxPathSum = Math.max(maxPathSum, left + right + root.val);
+        return root.val + Math.max(left, right);
+    }
+
+    private int maxPathSum = Integer.MIN_VALUE;
+
     /**
      * 128. Longest Consecutive Sequence.
      * @param nums
