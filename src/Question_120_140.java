@@ -1,10 +1,14 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Edmond on 11/30/16.
  */
 public class Question_120_140 {
+    /**
+     * 128. Longest Consecutive Sequence.
+     * @param nums
+     * @return
+     */
     public static int longestConsecutive(int[] nums) {
         int max = 0;
         Map<Integer, Integer> map = new HashMap<>();
@@ -26,6 +30,56 @@ public class Question_120_140 {
             }
         }
         return max;
+    }
+
+    /**
+     * 133. Clone Graph.
+     * @param node
+     * @return
+     */
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) {
+            return node;
+        }
+        if (visited.containsKey(node.label)) {
+            return visited.get(node.label);
+        }
+
+        UndirectedGraphNode clone = new UndirectedGraphNode(node.label);
+        visited.put(clone.label, clone);
+
+        for (UndirectedGraphNode neighbor : node.neighbors) {
+            clone.neighbors.add(cloneGraph(neighbor));
+        }
+
+        return clone;
+    }
+
+    private HashMap<Integer, UndirectedGraphNode> visited = new HashMap<>();
+
+    /**
+     * 135. Candy.
+     * @param ratings
+     * @return
+     */
+    public int candy(int[] ratings) {
+        int[] res = new int[ratings.length];
+        Arrays.fill(res, 1);
+        for (int i = 1; i < ratings.length; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                res[i] = res[i - 1] + 1;
+            }
+        }
+        for (int i = ratings.length - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                res[i] = Math.max(res[i], res[i + 1] + 1);
+            }
+        }
+        int sum = 0;
+        for (int n : res) {
+            sum += n;
+        }
+        return sum;
     }
 
     /**
