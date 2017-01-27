@@ -28,6 +28,32 @@ public class Question_120_140 {
         return max;
     }
 
+    /**
+     * 138. Copy List with Random Pointer.
+     * @param head
+     * @return
+     */
+    public RandomListNode copyRandomList(RandomListNode head) {
+        Map<RandomListNode, RandomListNode> map = new HashMap<>();
+        RandomListNode dummy = new RandomListNode(0);
+        RandomListNode newNode = dummy;
+        RandomListNode cur = head;
+        while (cur != null) {
+            newNode.next = new RandomListNode(cur.label);
+            newNode = newNode.next;
+            map.put(cur, newNode);
+            cur = cur.next;
+        }
+        cur = head;
+        while (cur != null) {
+            if (cur.random != null) {
+                map.get(cur).random = map.get(cur.random);
+            }
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
 
     }
