@@ -1,7 +1,39 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Question_141_160 {
+
+    /**
+     * 145. Binary Tree Postorder Traversal.
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> result = new ArrayList<>();
+        Map<TreeNode, Boolean> finished = new HashMap<>();
+        if (root == null) {
+            return result;
+        }
+        stack.push(root);
+        finished.put(root, false);
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.peek();
+            if (finished.get(cur)) {
+                result.add(stack.pop().val);
+            } else {
+                finished.put(cur, true);
+                if (cur.right != null) {
+                    stack.push(cur.right);
+                    finished.put(cur.right, false);
+                }
+                if (cur.left != null) {
+                    stack.push(cur.left);
+                    finished.put(cur.left, false);
+                }
+            }
+        }
+        return result;
+    }
 
     /**
      * 156. Binary Tree Upside Down.
