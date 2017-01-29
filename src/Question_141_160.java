@@ -36,6 +36,52 @@ public class Question_141_160 {
     }
 
     /**
+     * 149. Max Points on a Line.
+     * @param points
+     * @return
+     */
+    public int maxPoints(Point[] points) {
+        if (points == null || points.length == 0) {
+            return 0;
+        }
+        int max = 0;
+        for (int i = 0; i < points.length; i++) {
+            int same = 1;
+            int vertical = 0;
+            int horizontal = 0;
+            int curMax = 0;
+            Map<Double, Integer> count = new HashMap<>();
+            for (int j = i + 1; j < points.length; j++) {
+                if (points[i].x == points[j].x && points[i].y == points[j].y) {
+                    same++;
+                } else if (points[i].x == points[j].x) {
+                    vertical++;
+                } else if (points[i].y == points[j].y) {
+                    horizontal++;
+                } else {
+                    double k = (double) (points[j].y - points[i].y) / (points[j].x - points[i].x);
+                    if (!count.containsKey(k)) {
+                        count.put(k, 1);
+                    } else {
+                        count.put(k, count.get(k) + 1);
+                    }
+                    curMax = Math.max(curMax, count.get(k));
+                }
+            }
+            max = Math.max(max, Math.max(curMax, vertical) + same);
+            max = Math.max(max, horizontal + same);
+        }
+        return max;
+    }
+
+    class Point {
+        int x;
+        int y;
+        Point() { x = 0; y = 0; }
+        Point(int a, int b) { x = a; y = b; }
+    }
+
+    /**
      * 156. Binary Tree Upside Down.
      * @param root
      * @return
@@ -88,5 +134,19 @@ public class Question_141_160 {
             right++;
         }
         return max;
+    }
+
+    public void test() {
+        Point p1 = new Point(2, 3);
+        Point p2 = new Point(5, 3);
+        Point p3 = new Point(-3, 3);
+
+        Point[] nums = {p1, p2, p3};
+        System.out.println(maxPoints(nums));
+    }
+
+    public static void main(String[] args) {
+        Question_141_160 q = new Question_141_160();
+        q.test();
     }
 }
