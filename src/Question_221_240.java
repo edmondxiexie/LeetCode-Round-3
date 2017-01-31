@@ -483,6 +483,59 @@ public class Question_221_240 {
         return res;
     }
 
+    /**
+     * 240. Search a 2D Matrix II.
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int start = 0;
+        int end = rows - 1;
+        int startRow = rows;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[mid][cols - 1] == target) {
+                return true;
+            } else if (matrix[mid][cols - 1] < target) {
+                start = mid + 1;
+            } else {
+                startRow = mid;
+                end = mid - 1;
+            }
+        }
+        if (matrix[start][cols - 1] == target) {
+            return true;
+        } else if (matrix[start][cols - 1] > target) {
+            startRow = start;
+        } else {
+            startRow = end;
+        }
+        if (startRow == rows) {
+            return false;
+        }
+        for (int i = startRow; i < rows; i++) {
+            start = 0;
+            end = cols - 1;
+            while (start <= end) {
+                int mid = start + (end - start) / 2;
+                if (matrix[i][mid] == target) {
+                    return true;
+                } else if (matrix[i][mid] < target) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(computeArea(-1500000001, 0, -1500000000, 1, 1500000000, 0, 1500000001, 1));
 //        System.out.println(isPowerOfTwo(-2147483648));

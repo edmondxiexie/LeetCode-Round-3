@@ -145,8 +145,17 @@ public class Question_141_160 {
         System.out.println(maxPoints(nums));
     }
 
+    public int getRandom() {
+        Random rand = new Random();
+        int index = rand.nextInt(1);
+        return index;
+    }
+
     public static void main(String[] args) {
         Question_141_160 q = new Question_141_160();
         q.test();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(q.getRandom());
+        }
     }
 }
