@@ -65,6 +65,36 @@ public class Question_041_060 {
         return sum;
     }
 
+    public int trap2(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        int sum = 0;
+        int left = 0;
+        int leftMax = height[left];
+        int right = height.length - 1;
+        int rightMax = height[right];
+        while (left <= right) {
+            if (height[left] < height[right]) {
+                int h = Math.min(leftMax, rightMax) - height[left];
+                if (h > 0) {
+                    sum += h;
+                }
+                leftMax = Math.max(leftMax, height[left]);
+                left++;
+            } else {
+                int h = Math.min(leftMax, rightMax) - height[right];
+                if (h > 0) {
+                    sum += h;
+                }
+                rightMax = Math.max(rightMax, height[right]);
+                right--;
+            }
+            System.out.println(sum);
+        }
+        return sum;
+    }
+
     /**
      * 44. Wildcard Matching.
      * @param s
@@ -410,7 +440,8 @@ public class Question_041_060 {
 //        System.out.println(s1.length());
 //        System.out.println(s2.length());
         Question_041_060 q = new Question_041_060();
-        int[] nums = {2,3,1,1,4};
-        System.out.println(q.jump(nums));
+        int[] nums = {5,5,1,7,1,1,5,2,7,6};
+        System.out.println(q.trap2(nums));
+
     }
 }
