@@ -223,6 +223,33 @@ public class Question_041_060 {
     }
 
     /**
+     * 49. Group Anagrams.
+     * @param strs
+     * @return
+     */
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> result = new ArrayList<>();
+        if (strs == null || strs.length == 0) {
+            return result;
+        }
+        Map<String, List<String>> map = new HashMap<>();
+        for (String s : strs) {
+            char[] chs = s.toCharArray();
+            Arrays.sort(chs);
+            String key = new String(chs);
+            if (map.containsKey(key)) {
+                map.get(key).add(s);
+            } else {
+                List<String> tmp = new ArrayList<>();
+                tmp.add(s);
+                map.put(key, tmp);
+            }
+        }
+        result.addAll(map.values());
+        return result;
+    }
+
+    /**
      * 51. N-Queens.
      * @param n
      * @return
