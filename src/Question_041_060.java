@@ -468,7 +468,6 @@ public class Question_041_060 {
 //        System.out.println(s2.length());
         Question_041_060 q = new Question_041_060();
         int[] nums = {5,5,1,7,1,1,5,2,7,6};
-        System.out.println(q.trap2(nums));
 
     }
 }
