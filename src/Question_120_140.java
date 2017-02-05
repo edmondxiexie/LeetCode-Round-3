@@ -25,6 +25,97 @@ public class Question_120_140 {
         return root.val + Math.max(left, right);
     }
 
+    /**
+     * 126. Word Ladder II.
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        Set<String> wordSet = new HashSet<>();
+        for (String word : wordList) {
+            wordSet.add(word);
+        }
+        List<List<String>> result = new ArrayList<>();
+        if (!wordSet.contains(endWord)) {
+            return result;
+        }
+        wordSet.add(beginWord);
+        Map<String, Integer> distance = new HashMap<>();
+        BFS(endWord, beginWord, wordSet, distance);
+        List<String> path = new ArrayList<>();
+        path.add(beginWord);
+        DFS(beginWord, endWord, wordSet, distance, path, result);
+        return result;
+    }
+
+    private void BFS(String beginWord, String endWord, Set<String> wordSet, Map<String, Integer> distance) {
+        Queue<String> queue = new LinkedList<>();
+        int level = 1;
+        queue.offer(beginWord);
+        distance.put(beginWord, level);
+        boolean found = false;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            level++;
+            for (int i = 0; i < size; i++) {
+                String top = queue.poll();
+                for (String next : getNextStr(top, wordSet)) {
+                    if (distance.containsKey(next)) {
+                        continue;
+                    }
+                    if (next.equals(endWord)) {
+                        found = true;
+                    }
+                    queue.offer(next);
+                    distance.put(next, level);
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+    }
+
+    private void DFS(String beginWord, String endWord, Set<String> wordSet, Map<String, Integer> distance, List<String> path, List<List<String>> result) {
+        if (!distance.containsKey(beginWord)) {
+            return;
+        }
+        if (beginWord.equals(endWord)) {
+            result.add(new ArrayList(path));
+        }
+        for (String next : getNextStr(beginWord, wordSet)) {
+            if (distance.containsKey(next) && distance.get(next) == distance.get(beginWord) - 1) {
+                path.add(next);
+                DFS(next, endWord, wordSet, distance, path, result);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
+    private List<String> getNextStr(String top, Set<String> wordSet) {
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < top.length(); i++) {
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                if (ch == top.charAt(i)) {
+                    continue;
+                }
+                String next = replace(top, i, ch);
+                if (wordSet.contains(next)) {
+                    result.add(next);
+                }
+            }
+        }
+        return result;
+    }
+
+    private String replace(String top, int i, char ch) {
+        char[] charArray = top.toCharArray();
+        charArray[i] = ch;
+        return new String(charArray);
+    }
+
     private int maxPathSum = Integer.MIN_VALUE;
 
     /**
@@ -132,6 +223,15 @@ public class Question_120_140 {
     }
 
     public static void main(String[] args) {
+        String beginWord = "hit";
+        String endWord = "cog";
+        String[] strs = {"hot","dot","dog","lot","log","cog"};
+        List<String> wordList = new ArrayList<>();
+        for (String s : strs) {
+            wordList.add(s);
+        }
+        Question_120_140 q = new Question_120_140();
+        q.findLadders(beginWord, endWord, wordList);
 
     }
 

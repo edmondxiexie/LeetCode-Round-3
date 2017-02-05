@@ -95,6 +95,15 @@ public class Question_461_480 {
         return res;
     }
 
+    /**
+     * 479. Largest Palindrome Product.
+     * @param n
+     * @return
+     */
+    public int largestPalindrome(int n) {
+        return 0;
+    }
+
     public static void main(String[] args) {
         System.out.println(3 / 2);
     }
