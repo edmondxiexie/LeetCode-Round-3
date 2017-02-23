@@ -104,6 +104,57 @@ public class Question_301_320 {
     }
 
     /**
+     * 310. Minimum Height Trees.
+     * @param n
+     * @param edges
+     * @return
+     */
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            if (!graph.containsKey(edge[0])) {
+                graph.put(edge[0], new HashSet<>());
+            }
+            graph.get(edge[0]).add(edge[1]);
+
+            if (!graph.containsKey(edge[1])) {
+                graph.put(edge[1], new HashSet<>());
+            }
+            graph.get(edge[1]).add(edge[0]);
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (!graph.containsKey(i)) {
+                result.add(i);
+            }
+        }
+        if (!result.isEmpty()) {
+            return result;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int node : graph.keySet()) {
+            if (graph.get(node).size() == 1) {
+                queue.offer(node);
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            result = new ArrayList<>(queue);
+            for (int i = 0; i < size; i++) {
+                int tmp = queue.poll();
+                for (int next : graph.get(tmp)) {
+                    graph.get(next).remove(tmp);
+                    if (graph.get(next).size() == 1) {
+                        queue.offer(next);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * 311. Sparse Matrix Multiplication.
      * @param A
      * @param B
