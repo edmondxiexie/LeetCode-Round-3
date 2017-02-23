@@ -1,4 +1,7 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Question_361_380 {
@@ -26,6 +29,46 @@ public class Question_361_380 {
         }
         result.get(depth).add(root.val);
         return depth;
+    }
+
+    /**
+     * 368. Largest Divisible Subset.
+     * @param nums
+     * @return
+     */
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+        Arrays.sort(nums);
+        int[] dp = new int[nums.length];
+        int[] pre = new int[nums.length];
+        Arrays.fill(dp, 1);
+        for (int i = 0; i < nums.length; i++) {
+            pre[i] = i;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] % nums[j] == 0 && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    pre[i] = j;
+                }
+            }
+        }
+        int max = 0;
+        int start = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (dp[i] > max) {
+                max = dp[i];
+                start = i;
+            }
+        }
+        res.add(nums[start]);
+        while (start != pre[start]) {
+            start = pre[start];
+            res.add(nums[start]);
+        }
+        Collections.reverse(res);
+        return res;
     }
 
     /**
