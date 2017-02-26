@@ -93,6 +93,35 @@ public class Question_401_420 {
     }
 
     /**
+     * 403. Frog Jump.
+     * @param stones
+     * @return
+     */
+    public boolean canCross(int[] stones) {
+        Map<Integer, Set<Integer>> dp = new HashMap<>();
+        for (int stone : stones) {
+            dp.put(stone, new HashSet<>());
+        }
+        dp.get(0).add(0);
+
+        for (int i = 0; i < stones.length - 1; i++) {
+            int stone = stones[i];
+            for (int range : dp.get(stone)) {
+                if (range - 1 > 0 && dp.containsKey(stone + range - 1)) {
+                    dp.get(stone + range - 1).add(range - 1);
+                }
+                if (dp.containsKey(stone + range)) {
+                    dp.get(stone + range).add(range);
+                }
+                if (dp.containsKey(stone + range + 1)) {
+                    dp.get(stone + range + 1).add(range + 1);
+                }
+            }
+        }
+        return dp.get(stones[stones.length - 1]).size() > 0;
+    }
+
+    /**
      * 404. Sum of Left Leaves.
      * @param root
      * @return

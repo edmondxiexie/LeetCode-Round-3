@@ -124,4 +124,8 @@ public class Question_361_380 {
         }
         return max;
     }
+
+    public static void main(String[] args) {
+        System.out.print(Math.min(Integer.MAX_VALUE, Integer.MAX_VALUE + 1));
+    }
 }
