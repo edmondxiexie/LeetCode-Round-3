@@ -362,46 +362,46 @@ public class Question_401_420 {
      * @param matrix
      * @return
      */
-    public List<int[]> pacificAtlantic(int[][] matrix) {
-        List<int[]> res = new ArrayList<>();
-        if (matrix.length == 0) {
-            return res;
-        }
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-        boolean[][] p = new boolean[rows][cols];
-        boolean[][] a = new boolean[rows][cols];
-
-        boolean[][] visited;
-        for (int i = 0; i < rows; i++) {
-            p[i][0] = true;
-            a[i][cols - 1] = true;
-            visited = new boolean[rows][cols];
-            DFSHelper(matrix, p, i, 0, visited);
-            visited = new boolean[rows][cols];
-            DFSHelper(matrix, a, i, cols - 1, visited);
-        }
-
-        for (int i = 0; i < cols; i++) {
-            p[0][i] = true;
-            a[rows - 1][i] = true;
-            visited = new boolean[rows][cols];
-            DFSHelper(matrix, p, 0, i, visited);
-            visited = new boolean[rows][cols];
-            DFSHelper(matrix, a, rows - 1, i, visited);
-        }
-
-        for(int i = 0; i < rows; i++)
-            for(int j = 0; j < cols; j++)
-                if(a[i][j] && p[i][j])
-                {
-                    int[] temp = new int[2];
-                    temp[0] = i;
-                    temp[1] = j;
-                    res.add(temp);
-                }
-        return res;
-    }
+//    public List<int[]> pacificAtlantic(int[][] matrix) {
+//        List<int[]> res = new ArrayList<>();
+//        if (matrix.length == 0) {
+//            return res;
+//        }
+//        int rows = matrix.length;
+//        int cols = matrix[0].length;
+//        boolean[][] p = new boolean[rows][cols];
+//        boolean[][] a = new boolean[rows][cols];
+//
+//        boolean[][] visited;
+//        for (int i = 0; i < rows; i++) {
+//            p[i][0] = true;
+//            a[i][cols - 1] = true;
+//            visited = new boolean[rows][cols];
+//            DFSHelper(matrix, p, i, 0, visited);
+//            visited = new boolean[rows][cols];
+//            DFSHelper(matrix, a, i, cols - 1, visited);
+//        }
+//
+//        for (int i = 0; i < cols; i++) {
+//            p[0][i] = true;
+//            a[rows - 1][i] = true;
+//            visited = new boolean[rows][cols];
+//            DFSHelper(matrix, p, 0, i, visited);
+//            visited = new boolean[rows][cols];
+//            DFSHelper(matrix, a, rows - 1, i, visited);
+//        }
+//
+//        for(int i = 0; i < rows; i++)
+//            for(int j = 0; j < cols; j++)
+//                if(a[i][j] && p[i][j])
+//                {
+//                    int[] temp = new int[2];
+//                    temp[0] = i;
+//                    temp[1] = j;
+//                    res.add(temp);
+//                }
+//        return res;
+//    }
 
     public void DFSHelper(int[][] matrix,boolean[][] map,int row, int col, boolean[][] visited) {
 
@@ -423,6 +423,91 @@ public class Question_401_420 {
         }
         if (col < map[0].length-1 && matrix[row][col + 1] >= cur) {
             DFSHelper(matrix, map, row, col + 1, visited);
+        }
+    }
+
+    public List<int[]> pacificAtlantic(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        boolean[][] pacific = new boolean[rows][cols];
+        boolean[][] atlantic = new boolean[rows][cols];
+        Queue<Co> queue = new LinkedList<>();
+        queue.offer(new Co(0, 0));
+        pacific[0][0] = true;
+        for (int i = 1; i < rows; i++) {
+            queue.offer(new Co(i, 0));
+            pacific[i][0] = true;
+        }
+        for (int j = 1; j < cols; j++) {
+            queue.offer(new Co(0, j));
+            pacific[0][j] = true;
+        }
+        BFS(pacific, queue, matrix);
+
+        queue.offer(new Co(rows - 1, cols - 1));
+        atlantic[rows - 1][cols - 1] = true;
+        for (int i = 0; i < rows - 1; i++) {
+            queue.offer(new Co(i, cols - 1));
+            atlantic[i][cols - 1] = true;
+        }
+        for (int j = 0; j < cols - 1; j++) {
+            queue.offer(new Co(rows - 1, j));
+            atlantic[rows - 1][j] = true;
+        }
+        BFS(atlantic, queue, matrix);
+
+        List<int[]> result = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (pacific[i][j] && atlantic[i][j]) {
+                    int[] tmp = new int[2];
+                    tmp[0] = i;
+                    tmp[1] = j;
+                    result.add(tmp);
+                }
+            }
+        }
+        return result;
+    }
+
+    private void BFS(boolean[][] visited, Queue<Co> queue, int[][] matrix) {
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+
+        while (!queue.isEmpty()) {
+            Co tmp = queue.poll();
+            int x = tmp.x;
+            int y = tmp.y;
+            for (int i = 0; i < 4; i++) {
+                int nextX = x + dx[i];
+                int nextY = y + dy[i];
+                if (isValid(nextX, nextY, matrix, visited) && matrix[nextX][nextY] >= matrix[x][y]) {
+                    queue.offer(new Co(nextX, nextY));
+                    visited[nextX][nextY] = true;
+                }
+            }
+        }
+    }
+
+    private boolean isValid(int x, int y, int[][] matrix, boolean[][] visited) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        if (x < 0 || x >= rows || y < 0 || y >= cols) {
+            return false;
+        }
+        if (visited[x][y]) {
+            return false;
+        }
+        return true;
+    }
+
+    public class Co {
+        public int x;
+        public int y;
+        public Co(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
     }
 
@@ -461,7 +546,17 @@ public class Question_401_420 {
 //        validWordAbbreviation("internationalization", "i12iz4n");
 //        int[] nums = {1,2,3,4};
 //        System.out.println(numberOfArithmeticSlices(nums));
-        System.out.println(n.removeKdigits("1432219", 3));
+//        System.out.println(n.removeKdigits("1432219", 3));
+//        int[][] matrix = new int[5][5];
+//        matrix[0] = new int[]{1,2,2,3,5};
+//        matrix[1] = new int[]{3,2,3,4,4};
+//        matrix[2] = new int[]{2,4,5,3,1};
+//        matrix[3] = new int[]{6,7,1,4,5};
+//        matrix[4] = new int[]{5,1,1,2,4};
+        int[][] matrix = new int[2][2];
+        matrix[0] = new int[]{1,2};
+        matrix[1] = new int[]{4,3};
+        n.pacificAtlantic(matrix);
     }
 
 

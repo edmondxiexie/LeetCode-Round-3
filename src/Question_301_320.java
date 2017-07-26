@@ -5,6 +5,106 @@ import java.util.*;
  * Created by Edmond on 12/23/16.
  */
 public class Question_301_320 {
+    /**
+     * 305. Number of Islands II
+     */
+    public List<Integer> numIslands2(int m, int n, Point[] operators) {
+        List<Integer> result = new ArrayList<>();
+        if (operators == null || operators.length == 0) {
+            return result;
+        }
+        UnionFind uf = new UnionFind(n, m);
+        int count = 0;
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+        int[][] islands = new int[n][m];
+        for (Point point : operators) {
+            int x = point.x;
+            int y = point.y;
+            if (islands[x][y] == 0) {
+                count++;
+                islands[x][y] = 1;
+                int id = getId(x, y, m);
+                for (int i = 0; i < dx.length; i++) {
+                    int newX = x + dx[i];
+                    int newY = y + dy[i];
+                    if (newX >= 0 && newX < n && newY >= 0 && newY < m
+                    && islands[newX][newY] == 1) {
+                        int newId = getId(newX, newY, m);
+                        System.out.println(uf.find(id));
+                        System.out.println(uf.find(newId));
+                        System.out.println();
+                        if (uf.find(id) != uf.find(newId)) {
+                            count--;
+                            uf.union(id, newId);
+                        }
+                    }
+                }
+            }
+            result.add(count);
+        }
+        return result;
+    }
+
+
+    class Point {
+        int x;
+        int y;
+        Point() { x = 0; y = 0; }
+        Point(int a, int b) { x = a; y = b; }
+    }
+
+
+    private int getId(int row, int col, int cols) {
+        return row*cols + col;
+    }
+
+    public class UnionFind {
+        private Map<Integer, Integer> roots = new HashMap<>();
+
+        public UnionFind(int n, int m) {
+            for(int i = 0 ; i < n; i++) {
+                for(int j = 0 ; j < m; j++) {
+                    int id = getId(i, j, m);
+                    roots.put(id, id);
+                }
+            }
+        }
+        public int find(int id) {
+            int root = roots.get(id);
+            while (root != roots.get(root)) {
+                root = roots.get(root);
+            }
+
+            int cur = id;
+
+            while (root != roots.get(cur)) {
+                int tmp = roots.get(cur);
+                roots.put(cur, root);
+                cur = tmp;
+            }
+            return root;
+        }
+
+        public void union(int id1, int id2) {
+            int root1 = find(id1);
+            int root2 = find(id2);
+            if (root1 != root2) {
+                roots.put(root1, root2);
+            }
+        }
+    }
+
+    public void test() {
+        int[][] nums = {{0,0},{1,1},{1,0},{0,1}};
+        Point[] points = new Point[4];
+        for (int i = 0; i < 4; i++) {
+            points[i] = new Point(nums[i][0], nums[i][1]);
+        }
+        numIslands2(2, 2, points);
+    }
+
+
     public class NumArray {
 
         private int[] sums;
@@ -27,6 +127,7 @@ public class Question_301_320 {
             return sums[j] - sums[i] + nums[i];
         }
     }
+
 
     /**
      * 306. Additive Number.
@@ -359,8 +460,15 @@ public class Question_301_320 {
 
     public static void main(String[] args) {
         Question_301_320 c = new Question_301_320();
-        System.out.println(c.isAdditiveNumber("198019823962"));
-        int[] nums = {2, 7, 13, 19};
-        System.out.println(c.nthSuperUglyNumber(12, nums));
+//        System.out.println(c.isAdditiveNumber("198019823962"));
+//        System.out.println(c.nthSuperUglyNumber(12, nums));
+//        c.test();
+        String a = "ab";
+        String b = "aac";
+        List<String> list = new ArrayList<>();
+        list.add(a);
+        list.add(b);
+        Collections.sort(list);
+        System.out.println(list);
     }
 }
