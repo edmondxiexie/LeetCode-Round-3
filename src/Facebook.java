@@ -1,3 +1,5 @@
+import sun.rmi.runtime.Log;
+
 import java.util.*;
 
 /**
@@ -215,7 +217,7 @@ public class Facebook {
                 map.put(c, map.get(c) + 1);
             }
         }
-        PriorityQueue<Node> pq = new PriorityQueue<>(map.size(), new Comparator<Node>(){
+        PriorityQueue<Node> pq = new PriorityQueue<>(new Comparator<Node>(){
             public int compare(Node n1, Node n2) {
                 if (n1.val != n2.val) {
                     return n2.val - n1.val;
@@ -330,7 +332,7 @@ public class Facebook {
                     slow = next[slow - 1];
                 }
                 if (chars[slow] == chars[fast]) {
-                    next[fast] = next[slow] + 1;
+                    next[fast] = slow + 1;
                     fast++;
                     slow++;
                 } else {
@@ -473,6 +475,110 @@ public class Facebook {
         }
     }
 
+    public int[] findTwoNum(int sum) {
+
+
+
+        for (int r = 0; r < 4; r++){
+            int h = (int)(sum / (11 * Math.pow(10, r)));
+            int m = (int)(sum % (11 * Math.pow(10, r)));
+            int e = (int)(m / Math.pow(10, r));
+            int t = (int)(m / Math.pow(10, r)) / 2;
+            int n1 = (int)(h * Math.pow(10, r + 1) + e * Math.pow(10, r) + t);
+            int n2 = (int)(h * Math.pow(10, r) + t);
+
+            System.out.println(n1 + " " + n2);
+        }
+        return null;
+    }
+
+    /**
+     * 239. Sliding Window Maximum.
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (k < 1) {
+            k = 1;
+        }
+        if (nums.length < k - 1) {
+            return new int[0];
+        }
+        Deque<Integer> deque = new ArrayDeque<>();
+        int[] result = new int[nums.length - k + 1];
+        for (int i = 0; i < nums.length; i++) {
+
+            if (!deque.isEmpty() && deque.peekFirst() == i - k) {
+                deque.pollFirst();
+            }
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            deque.offerLast(nums[i]);
+            if (i >= k - 1) {
+                result[i - k + 1] = nums[deque.peekFirst()];
+            }
+        }
+        return result;
+    }
+
+    public List<Function> calculateLog(LogNode[] logs) {
+        final int START = 1;
+        final int END = 0;
+        Stack<LogNode> funcStack = new Stack<>();
+        Stack<Integer> inStack = new Stack<>();
+        List<Function> result = new ArrayList<>();
+
+        funcStack.push(logs[0]);
+        inStack.push(0);
+        int index = 1;
+        while (!funcStack.isEmpty()) {
+            LogNode cur = logs[index];
+            if (cur.type == START) {
+                funcStack.push(cur);
+                inStack.push(0);
+            } else {
+                LogNode lastNode = funcStack.pop();
+                int lastInner = inStack.pop();
+                result.add(new Function(cur.id, cur.time - lastNode.time - lastInner, cur.time - lastNode.time));
+                if (!inStack.isEmpty()) {
+                    int curInner = inStack.pop();
+                    curInner += cur.time - lastNode.time;
+                    inStack.push(curInner);
+                }
+            }
+            index++;
+        }
+        System.out.println(result.toString());
+        return result;
+    }
+
+    public class Function {
+        public int id;
+        public int inclusive;
+        public int exclusive;
+        public Function(int id, int inclusive, int exclusive) {
+            this.id = id;
+            this.inclusive = inclusive;
+            this.exclusive = exclusive;
+        }
+        public String toString() {
+            return "" + id + " " + inclusive + " " + exclusive;
+        }
+    }
+
+    public static class LogNode {
+        public int id;
+        public int type;
+        public int time;
+        public LogNode(int id, int type, int time) {
+            this.id = id;
+            this.type = type;
+            this.time = time;
+        }
+    }
+
     public static void main(String[] args) {
         Facebook f = new Facebook();
         String haystack = "ababcaababcaabc";
@@ -488,8 +594,22 @@ public class Facebook {
 //        System.out.println(p0);
 //        Point p01 = f.kClosest2(points, origin, 3);
 //        System.out.println(p01);
-        String s = "aabbbcc";
-        int k = 3;
-        System.out.println(f.rearrangeString2(s, k));
+//        String s = "aabbbcc";
+//        int k = 3;
+//        System.out.println(f.rearrangeString2(s, k));
+//        f.findTwoNum(3802);
+        LogNode ln1 = new LogNode(1, 1, 1);
+        LogNode ln2 = new LogNode(2, 1, 2);
+        LogNode ln3 = new LogNode(2, 0, 3);
+        LogNode ln4 = new LogNode(3, 1, 4);
+        LogNode ln5 = new LogNode(3, 0, 6);
+        LogNode ln6 = new LogNode(1, 0, 9);
+        LogNode[] logs = {ln1, ln2, ln3, ln4, ln5, ln6};
+
+
+//        f.calculateLog(logs);
+        String needle2 = "abcabdrgabcabcab";
+
+        System.out.println(Arrays.toString(f.makeNext(needle2)));
     }
 }
