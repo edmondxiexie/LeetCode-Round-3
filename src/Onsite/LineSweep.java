@@ -116,12 +116,36 @@ public class LineSweep {
         }
     }
 
+    /**
+     * 56. Merge Intervals
+     * 问题就是李寇伍溜拆开问：
+         1) 合并2个intervals
+         2) 判断两个intervals 是否overlapping
+         3) 李寇伍溜
+     * @param intervals
+     * @return
+     */
+    public List<Interval> merge(List<Interval> intervals) {
+        return null;
+    }
+
+    /**
+     * 1) 判断两个intervals 是否overlapping
+     * @param
+     */
+    public boolean isOverlap(Interval intervalA, Interval intervalB) {
+        return true;
+    }
+
     public static void main(String[] args) {
         LineSweep ls = new LineSweep();
         int[] nums1 = {4, 7, 9, 12, 15};
         int[] nums2 = {0, 8, 10, 14, 20};
         int[] nums3 = {6, 12, 16, 30, 50};
         int[][] ns = {nums1, nums2, nums3};
-        System.out.println(Arrays.toString(ls.findSmallestRange(ns)));
+//        System.out.println(Arrays.toString(ls.findSmallestRange(ns)));
+        double ave = 200000 * (512 * 0.2 + 1024 * 0.3 + 4096 * 0.4 + 16384 * 0.1);
+        double sum = 7 * 513 * 1024 * 0.86;
+        System.out.println(sum / ave * 1024 * 1024 / 60);
     }
 }

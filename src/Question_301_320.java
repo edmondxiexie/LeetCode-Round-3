@@ -391,6 +391,71 @@ public class Question_301_320 {
     }
 
     /**
+     * 315. Count of Smaller Numbers After Self.
+     * @param nums
+     */
+    public List<Integer> countSmaller(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new ArrayList<>();
+        }
+        int[] count = new int[nums.length];
+        int[] indices = new int[nums.length];
+        for (int i = 0; i < indices.length; i++) {
+            indices[i] = i;
+        }
+        mergeSort(nums, indices, count, 0, nums.length - 1);
+        List<Integer> result = new ArrayList<>();
+        for (int c : count) {
+            result.add(c);
+        }
+        System.out.println(result.toString());
+        return result;
+    }
+
+    private void mergeSort(int[] nums, int[] indices, int[] count, int start, int end) {
+        if (start == end) {
+            return;
+        }
+        int mid = start + (end - start) / 2;
+        mergeSort(nums, indices, count, start, mid);
+        mergeSort(nums, indices, count, mid + 1, end);
+        merge(nums, indices, count, start, mid, mid + 1, end);
+    }
+
+    private void merge(int[] nums, int[] indices, int[] count, int start1, int end1, int start2, int end2) {
+        int[] tmp = new int[end2 - start1 + 1];
+        int cur1 = start1;
+        int cur2 = start2;
+        int i = 0;
+        int countRight = 0;
+        while (cur1 <= end1 || cur2 <= end2) {
+            if (cur1 > end1) {
+                tmp[i] = indices[cur2];
+                cur2++;
+                i++;
+            } else if (cur2 > end2) {
+                count[indices[cur1]] += countRight;
+                tmp[i] = indices[cur1];
+                cur1++;
+                i++;
+            } else if (nums[indices[cur1]] > nums[indices[cur2]]) {
+                countRight++;
+                tmp[i] = indices[cur2];
+                cur2++;
+                i++;
+            } else {
+                count[indices[cur1]] += countRight;
+                tmp[i] = indices[cur1];
+                cur1++;
+                i++;
+            }
+        }
+        for (i = 0; i < tmp.length; i++) {
+            indices[i + start1] = tmp[i];
+        }
+    }
+
+    /**
      * 318. Maximum Product of Word Lengths.
      * @param words
      * @return
@@ -463,12 +528,15 @@ public class Question_301_320 {
 //        System.out.println(c.isAdditiveNumber("198019823962"));
 //        System.out.println(c.nthSuperUglyNumber(12, nums));
 //        c.test();
-        String a = "ab";
-        String b = "aac";
-        List<String> list = new ArrayList<>();
-        list.add(a);
-        list.add(b);
-        Collections.sort(list);
-        System.out.println(list);
+//        String a = "ab";
+//        String b = "aac";
+//        List<String> list = new ArrayList<>();
+//        list.add(a);
+//        list.add(b);
+//        Collections.sort(list);
+
+//        System.out.println(list);
+        int[] nums = {8, 7, 1, 4, 2, 5, 6};
+        c.countSmaller(nums);
     }
 }

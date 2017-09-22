@@ -89,74 +89,69 @@ public class Other {
 
     public class LFUCache {
         private int capacity;
-        Map<Integer, LFUNode> cacheMap;
-        Map<Integer, FreqNode> freqMap;
-        FreqNode head;
-        FreqNode end;
+
+        // <key, LFUNode>
+        private Map<Integer, Integer> cacheMap;
+
+        // <key, Freq>
+        private Map<Integer, Integer> freqMap;
+
+        // <freq, list<key>>
+        private Map<Integer, LinkedHashSet<Integer>> freqListMap;
+
+        private int min = -1;
 
         public LFUCache(int capacity) {
             this.capacity = capacity;
             cacheMap = new HashMap<>();
             freqMap = new HashMap<>();
-            head = null;
-            end = null;
+            freqListMap = new HashMap<>();
+            freqListMap.put(1, new LinkedHashSet<>());
         }
 
-        public void increaseFreq(LFUNode node) {
-            FreqNode freqNode = freqMap.get(node.key);
+        public int get(int key) {
+            if (!cacheMap.containsKey(key)) {
+                return -1;
+            }
+            int value = cacheMap.get(key);
+            int freq = freqMap.get(key);
+            freqMap.put(key, freq + 1);
+            freqListMap.get(freq).remove(key);
+            if (freq == min && freqListMap.get(freq).isEmpty()) {
+                min++;
+            }
 
+            if (!freqListMap.containsKey(freq + 1)) {
+                freqListMap.put(freq + 1, new LinkedHashSet<>());
+            }
+            freqListMap.get(freq + 1).add(key);
+            return value;
         }
 
-        public class LFUNode {
-            public int key;
-            public int value;
-            public int freq;
-            public LFUNode prev;
-            public LFUNode next;
-            public LFUNode(int key, int value) {
-                this.key = key;
-                this.value = value;
+        public void put(int key, int value) {
+            if (capacity <= 0) {
+                return;
             }
-        }
-
-        public class FreqNode {
-            public int freq;
-            public FreqNode prev;
-            public FreqNode next;
-            public LFUNode head;
-            public LFUNode end;
-
-            public FreqNode(int freq) {
-                this.freq = freq;
-            }
-
-            public void remove(LFUNode node) {
-                if (node.prev != null) {
-                    node.prev.next = node.next;
-                } else {
-                    head = node.next;
+            if (cacheMap.containsKey(key)) {
+                cacheMap.put(key, value);
+                get(key);
+            } else {
+                if (cacheMap.size() >= capacity) {
+                    int evict = freqListMap.get(min).iterator().next();
+                    freqListMap.get(min).remove(evict);
+                    cacheMap.remove(evict);
+                    freqMap.remove(evict);
                 }
-                if (node.next != null) {
-                    node.next.prev = node.prev;
-                } else {
-                    end = node.prev;
-                }
-            }
-
-            public void addHead(LFUNode node) {
-                node.next = head;
-                node.prev = null;
-                if (head != null) {
-                    head.prev = node;
-                }
-                head = node;
-                if (end == null) {
-                    end = head;
-                }
+                cacheMap.put(key, value);
+                freqMap.put(key, 1);
+                min = 1;
+                freqListMap.get(1).add(key);
             }
 
         }
+
     }
+
 
     /**
      * random maximum index.
@@ -182,6 +177,25 @@ public class Other {
         return index;
     }
 
+    public void test() {
+        LFUCache lfuCache = new LFUCache(2);
+        lfuCache.put(1, 1);
+        lfuCache.put(2, 2);
+        lfuCache.get(1);
+        lfuCache.put(3, 3);
+        System.out.println(lfuCache.get(2));
+
+        System.out.println(lfuCache.get(3));
+
+        lfuCache.put(4, 4);
+        System.out.println(lfuCache.get(4));
+        System.out.println(lfuCache.get(1));
+        System.out.println(lfuCache.get(3));
+        System.out.println(lfuCache.get(4));
+
+
+    }
+
     public static void main(String[] args) {
         int[] nums = {8, 3, 1, 3, 4, 8, 5, 8, 7, 8};
         Other other = new Other();
@@ -202,10 +216,24 @@ public class Other {
                 count9++;
             }
         }
-        System.out.println(count0 / 100000.0);
-        System.out.println(count5 / 100000.0);
-        System.out.println(count7 / 100000.0);
-        System.out.println(count9 / 100000.0);
-        System.out.println(count0 + count5 + count7 + count9);
+//        System.out.println(count0 / 100000.0);
+//        System.out.println(count5 / 100000.0);
+//        System.out.println(count7 / 100000.0);
+//        System.out.println(count9 / 100000.0);
+//        System.out.println(count0 + count5 + count7 + count9);
+//        ["LFUCache","put","put","get","put","get","get","put"]
+//        [[2],[1,1],[2,2],[1],[3,3],[2],[3],[4,4]]
+        other.test();
+//        LinkedHashSet<Integer> list = new LinkedHashSet<>();
+//        list.add(1);
+//        list.add(2);
+//        System.out.println(list);
+//        list.add(3);
+//        System.out.println(list);
+//        System.out.println(list.iterator().next());
+//        System.out.println(list.iterator().next());
+//        list.remove(2);
+//        System.out.println(list);
+
     }
 }

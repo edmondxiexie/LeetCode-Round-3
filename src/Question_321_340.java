@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class Question_321_340 {
 
@@ -75,6 +76,30 @@ public class Question_321_340 {
             }
         }
         return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+    }
+
+    /**
+     * 331. Verify Preorder Serialization of a Binary Tree.
+     * @param preorder
+     * @return
+     */
+    public boolean isValidSerialization(String preorder) {
+        Stack<String> stack = new Stack<>();
+        String[] nodes = preorder.split(",");
+        for (int i = 0; i < nodes.length; i++) {
+            if (nodes[i].equals("#")) {
+                while (!stack.isEmpty() && stack.peek().equals("#")) {
+                    if (stack.size() >= 2) {
+                        stack.pop();
+                        stack.pop();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            stack.push(nodes[i]);
+        }
+        return stack.size() == 1 && stack.peek().equals("#");
     }
 
     /**
@@ -158,7 +183,9 @@ public class Question_321_340 {
     public static void main(String[] args) {
         Question_321_340 c = new Question_321_340();
         int[] nums = {1,2,5,10};
-        System.out.println(c.coinChange(nums, 48));
+//        System.out.println(c.coinChange(nums, 48));
+        String str = "#";
+//        System.out.println(c.isValidSerialization(str));
     }
 
 }
