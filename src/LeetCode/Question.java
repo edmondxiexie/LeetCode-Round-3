@@ -1,6 +1,8 @@
 package LeetCode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -51,5 +53,75 @@ public class Question {
             }
         }
         System.out.println(Arrays.toString(record));
+    }
+
+    public static void output(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        System.out.println(root.val);
+        for (TreeNode node : root.next) {
+            output(node);
+        }
+    }
+
+    public int index = 0;
+
+    public TreeNode buildTree(String str) {
+        String[] strs = str.split(",");
+        TreeNode dummy = new TreeNode(0);
+        dummy.next = buildTree(strs);
+        return dummy.next.get(0);
+    }
+
+    public List<TreeNode> buildTree(String[] strs) {
+        // recursion
+        List<TreeNode> list = new ArrayList<>();
+        String first = strs[index].substring(1);
+        list.add(new TreeNode(Integer.parseInt(first)));
+        index++;
+        boolean isEnd = false;
+        while (index < strs.length) {
+            if (strs[index].startsWith("(")) {
+                list.get(list.size() - 1).next = buildTree(strs);
+            } else {
+                String tmp = strs[index];
+                if (tmp.endsWith(")")) {
+                    while (tmp.endsWith(")")) {
+                        tmp = tmp.substring(0, tmp.length() - 1);
+                    }
+                    isEnd = true;
+                }
+                list.add(new TreeNode(Integer.parseInt(tmp)));
+            }
+            if (isEnd) {
+                break;
+            }
+            index++;
+        }
+        return list;
+    }
+
+    public class TreeNode {
+        public int val;
+        public List<TreeNode> next;
+        public TreeNode(int val) {
+            this.val = val;
+            next = new ArrayList<>();
+        }
+        public String toString() {
+            StringBuilder result = new StringBuilder();
+            result.append(val);
+            if (next != null) {
+                result.append('[');
+                for (TreeNode child : next) {
+                    result.append(child.toString());
+                    result.append(',');
+                }
+                //result.deleteCharAt(result.length() - 1);
+                result.append(']');
+            }
+            return result.toString();
+        }
     }
 }
